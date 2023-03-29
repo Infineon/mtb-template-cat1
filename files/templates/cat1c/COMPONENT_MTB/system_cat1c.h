@@ -268,6 +268,19 @@
 * Change the stack size by modifying the following line:\n
 * \code STACK_SIZE = 0x1000; \endcode
 *
+* \note Correct operation of malloc and related functions depends on the working
+* implementation of the 'sbrk' function. Newlib-nano (default C runtime library
+* used by the GNU Arm Embedded toolchain) provides weak 'sbrk' implementation that
+* doesn't check for heap and stack collisions during excessive memory allocations.
+* To ensure the heap always remains within the range defined by __HeapBase and
+* __HeapLimit linker symbols, provide a strong override for the 'sbrk' function:
+* \snippet startup/snippet/main.c snippet_sbrk
+* For FreeRTOS-enabled multi-threaded applications, it is sufficient to include
+* clib-support library that provides newlib-compatible implementations of
+* 'sbrk', '__malloc_lock' and '__malloc_unlock':
+* <br>
+* https://github.com/Infineon/clib-support.
+*
 * \subsubsection group_system_config_heap_stack_config_mdk_cm7 ARM Compiler
 * <b>Editing source code files</b>\n
 * The stack size is defined in the linker script files: 'xx_yy_zz.sct',

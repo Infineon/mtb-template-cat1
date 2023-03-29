@@ -6,11 +6,11 @@
 /* VMA for App Text section */
 #define appText_vma 0x04004000
 /* App Text section size */
-#define appText_size 0x00007000
+#define appText_size 0x00017000
 /* LMA App Data section */
-#define appData_vma 0x2000B000
+#define appData_vma 0x2001B000
 /* App Data section size */
-#define appData_size 0x00015000
+#define appData_size 0x00025000
 
 LR_1 appText_vma
 {
@@ -35,6 +35,7 @@ LR_1 appText_vma
     appData_noinit +0 UNINIT
     {
         * (.noinit)
+        * (.bss.noinit)
     }
 
     ; Application heap area (HEAP)

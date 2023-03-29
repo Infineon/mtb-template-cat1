@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file system_cyw20829.h
-* \version 1.1
+* \version 1.2
 *
 * \brief Device system header file.
 *
@@ -147,6 +147,19 @@
 * \code STACK_SIZE = 0x00001000; \endcode
 * Remaining free RAM is used as heap.
 *
+* \note Correct operation of malloc and related functions depends on the working
+* implementation of the 'sbrk' function. Newlib-nano (default C runtime library
+* used by the GNU Arm Embedded toolchain) provides weak 'sbrk' implementation that
+* doesn't check for heap and stack collisions during excessive memory allocations.
+* To ensure the heap always remains within the range defined by __HeapBase and
+* __HeapLimit linker symbols, provide a strong override for the 'sbrk' function:
+* \snippet startup/snippet/main.c snippet_sbrk_cm33
+* For FreeRTOS-enabled multi-threaded applications, it is sufficient to include
+* clib-support library that provides newlib-compatible implementations of
+* 'sbrk', '__malloc_lock' and '__malloc_unlock':
+* <br>
+* https://github.com/Infineon/clib-support.
+*
 * \subsubsection group_system_config_heap_stack_config_arm_cm33 ARM Compiler
 * - <b>Editing source code files for non-secure image</b>\n
 * The stack sizes are defined in the linker script file: 'cyw20829_ns_flash_cbus.sct'.
@@ -214,6 +227,11 @@
 *       <th>Reason for Change</th>
 *   </tr>
 *   <tr>
+*       <td>1.2</td>
+*       <td>Added new internal functions.</td>
+*       <td>Added support for DSRAM Setup for CAT1B devices.</td>
+*   </tr>
+*   <tr>
 *       <td>1.1</td>
 *       <td>Restructured documentation and internal function behaviour.</td>
 *       <td>User experience enhancement.</td>
@@ -243,6 +261,8 @@ extern "C" {
 * Include files
 *******************************************************************************/
 #include <stdint.h>
+#include <stdbool.h>
+
 
 #define CY_SYSTEM_CPU_CM33          1UL
 
@@ -272,6 +292,9 @@ extern "C" {
 
 /** \cond */
 void SystemInit(void);
+void SystemInit_Warmboot_CAT1B_CM33(void);
+void System_Store_NVIC_Reg(void);
+void System_Restore_NVIC_Reg(void);
 extern void SystemCoreClockUpdate(void);
 
 extern void     Cy_SystemInit(void);
@@ -285,6 +308,7 @@ extern uint32_t SystemCoreClock;
 extern uint32_t cy_Hfclk0FreqHz;
 extern uint32_t cy_PeriClkFreqHz;
 extern uint32_t cy_AhbFreqHz;
+extern bool cy_WakeupFromWarmBootStatus;
 
 /** \endcond */
 

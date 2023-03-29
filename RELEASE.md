@@ -1,6 +1,11 @@
-# mtb-template-cat1 Release Notes
+# ModusToolbox CAT1 BSP Template Library Release Notes
 
 ### What Changed?
+#### v1.1.0
+* Fix ifdef for CM0P core in cybsp.c
+* Add `cybsp_hw_config.h` to fileset.
+* Add pre-production support for DeepSleep-RAM warm-boot on CAT1B devices.
+* Update linker scripts and startup code to align with mtb-pdl-cat1 v3.3.0
 #### v1.0.0
 Initial release
 

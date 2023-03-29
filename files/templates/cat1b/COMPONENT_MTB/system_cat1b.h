@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file system_cat1b.h
-* \version 1.1
+* \version 1.2
 *
 * \brief CAT1B Device system header file.
 *

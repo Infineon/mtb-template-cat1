@@ -244,6 +244,10 @@ void CM7_CpuIntr6_Handler   (void) __attribute__ ((weak, alias("Default_CpuIntr6
 void CM7_CpuIntr7_Handler   (void) __attribute__ ((weak, alias("Default_CpuIntr7_Handler")));
 
 extern const cy_israddress __Vectors[VECTORTABLE_SIZE];
+#if defined (__GNUC__)
+_Pragma("GCC diagnostic push")
+_Pragma("GCC diagnostic ignored \"-Wpedantic\"")
+#endif /* __GNUC__ */
 const cy_israddress __Vectors[VECTORTABLE_SIZE] __VECTOR_TABLE_ATTRIBUTE = {
     (cy_israddress)&__INITIAL_SP,
     (cy_israddress)Reset_Handler,               /* initial PC/Reset */
@@ -280,7 +284,9 @@ const cy_israddress __Vectors[VECTORTABLE_SIZE] __VECTOR_TABLE_ATTRIBUTE = {
     (cy_israddress)Default_Handler,
     (cy_israddress)Default_Handler
 };
-
+#if defined (__GNUC__)
+_Pragma("GCC diagnostic pop")
+#endif /* __GNUC__ */
 
 /* Provide empty __WEAK implementation for the low-level initialization
    routine required by the RTOS-enabled applications.

@@ -1,4 +1,4 @@
-# mtb-template-cat1
+# ModusToobox CAT1 BSP Template Library
 
 ## Overview
 

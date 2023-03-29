@@ -48,7 +48,7 @@ FLASH_START_ADDR_SAHB       = 0x60000000;
 FLASH_START_ADDR_CBUS       = 0x08000000;
 RAM_START_ADDR_SAHB         = 0x20000000;
 RAM_START_ADDR_CBUS         = 0x04000000;
-RAM_END_ADDR_SAHB           = 0x20020000; /* 128K */
+RAM_END_ADDR_SAHB           = 0x20040000; /* 256K */
 FLASH_END_ADDR_SAHB         = 0x60080000; /* 512K */
 
 BOOTSTRAP_OFFSET_FLASH      = 0x0000048; /* toc2=0x10, l1_desc=0x18, sign_header=0x20 */
@@ -65,14 +65,14 @@ CODE_VMA                    = RAM_START_ADDR_CBUS + BOOTSTRAP_OFFSET_RAM;
 /* lma for bootstrap and app code region */
 CODE_LMA                    = FLASH_START_ADDR_SAHB + BOOTSTRAP_OFFSET_FLASH;
 /* code size */
-CODE_SIZE                   = 0x00010000; /* 64K */
+CODE_SIZE                   = 0x00020000; /* 128K */
 
 /* vma for bootstrap and app data region */
-DATA_VMA                    = RAM_START_ADDR_SAHB + BOOTSTRAP_OFFSET_RAM + CODE_SIZE; /* 0x20014000 */
+DATA_VMA                    = RAM_START_ADDR_SAHB + BOOTSTRAP_OFFSET_RAM + CODE_SIZE; /* 0x20024000 */
 /* lma for bootstrap and app data region */
-DATA_LMA                    = CODE_LMA + CODE_SIZE; /* 0x20014000 */
+DATA_LMA                    = CODE_LMA + CODE_SIZE; /* 0x60020048 */
 /* data size */
-DATA_SIZE                   = RAM_END_ADDR_SAHB - DATA_VMA; /* 48K */
+DATA_SIZE                   = RAM_END_ADDR_SAHB - DATA_VMA; /* 112K */
 
 
 /* Force symbol to be entered in the output file as an undefined symbol. Doing

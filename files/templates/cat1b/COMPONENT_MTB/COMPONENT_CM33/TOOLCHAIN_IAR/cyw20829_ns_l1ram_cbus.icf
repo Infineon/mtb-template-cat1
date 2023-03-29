@@ -44,7 +44,7 @@ define symbol FLASH_START_ADDR_SAHB         = 0x60000000;
 define symbol FLASH_START_ADDR_CBUS         = 0x08000000;
 define symbol RAM_START_ADDR_SAHB           = 0x20000000;
 define symbol RAM_START_ADDR_CBUS           = 0x04000000;
-define symbol RAM_END_ADDR_SAHB             = 0x20020000; /* 128K */
+define symbol RAM_END_ADDR_SAHB             = 0x20040000; /* 256K */
 define symbol FLASH_END_ADDR_SAHB           = 0x60080000; /* 512K */
 
 define symbol BOOTSTRAP_OFFSET_FLASH        = 0x00000048; /* toc2=0x10, l1_desc=0x18, sign_header=0x20 */
@@ -56,14 +56,14 @@ define symbol CODE_VMA                      = RAM_START_ADDR_CBUS + BOOTSTRAP_OF
 /* lma for bootstrap code region */
 define symbol CODE_LMA                      = FLASH_START_ADDR_SAHB + BOOTSTRAP_OFFSET_FLASH; /* 0x60000048 */
 /* bootstrap code size */
-define symbol CODE_SIZE                     = 0x00010000;
+define symbol CODE_SIZE                     = 0x00020000;
 
 /* vma for bootstrap data region */
-define symbol DATA_VMA                      = RAM_START_ADDR_SAHB + BOOTSTRAP_OFFSET_RAM + CODE_SIZE; /* 0x20014000 */
+define symbol DATA_VMA                      = RAM_START_ADDR_SAHB + BOOTSTRAP_OFFSET_RAM + CODE_SIZE; /* 0x20024000 */
 /* lma for bootstrap data region */
-define symbol DATA_LMA                      = CODE_LMA + CODE_SIZE; /* 0x60010048 */
+define symbol DATA_LMA                      = CODE_LMA + CODE_SIZE; /* 0x60020048 */
 /* bootstrap data size */
-define symbol DATA_SIZE                     = RAM_END_ADDR_SAHB - DATA_VMA; /* 48K */
+define symbol DATA_SIZE                     = RAM_END_ADDR_SAHB - DATA_VMA; /* 112K */
 
 
 /* The symbols below define the location and size of blocks of memory in the target.
