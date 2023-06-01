@@ -83,81 +83,16 @@ cy_stc_syspm_warmboot_entrypoint_t syspmBspDeepSleepEntryPoint =
 #endif
 
 //--------------------------------------------------------------------------------------------------
-// cybsp_deepsleep_ram_callback
-//--------------------------------------------------------------------------------------------------
-cy_en_syspm_status_t cybsp_deepsleep_ram_callback(cy_stc_syspm_callback_params_t* callbackParams,
-                                                  cy_en_syspm_callback_mode_t mode)
-{
-    cy_en_syspm_status_t retVal = CY_SYSPM_FAIL;
-
-    CY_UNUSED_PARAMETER(callbackParams);
-
-    switch (mode)
-    {
-        case CY_SYSPM_CHECK_READY:
-        case CY_SYSPM_CHECK_FAIL:
-        case CY_SYSPM_BEFORE_TRANSITION:
-        {
-            retVal = CY_SYSPM_SUCCESS;
-            break;
-        }
-
-        case CY_SYSPM_AFTER_TRANSITION:
-        {
-            /* Currently only GCC_ARM compiler is supported for DS-RAM Warmboot Re-entry*/
-            #if defined(__GNUC__) && !defined(__ARMCC_VERSION)
-            Cy_Syslib_SetWarmBootEntryPoint((uint32_t*)&syspmBspDeepSleepEntryPoint, true);
-            #endif
-
-            retVal = CY_SYSPM_SUCCESS;
-            break;
-        }
-
-        default:
-            break;
-    }
-
-    return retVal;
-}
-
-
-//--------------------------------------------------------------------------------------------------
-// cybsp_register_syspm_dsram_callback
-//--------------------------------------------------------------------------------------------------
-cy_rslt_t cybsp_register_syspm_dsram_callback(void)
-{
-    cy_rslt_t result = CY_RSLT_SUCCESS;
-    static cy_stc_syspm_callback_params_t cybsp_sysclk_pm_callback_param = { NULL, NULL };
-    static cy_stc_syspm_callback_t        cybsp_sysclk_pm_callback       =
-    {
-        .callback       = &cybsp_deepsleep_ram_callback,
-        .type           = CY_SYSPM_DEEPSLEEP_RAM,
-        .callbackParams = &cybsp_sysclk_pm_callback_param,
-        .order          = 0u
-    };
-
-    if (!Cy_SysPm_RegisterCallback(&cybsp_sysclk_pm_callback))
-    {
-        result = CYBSP_RSLT_ERR_SYSCLK_PM_CALLBACK;
-    }
-    return result;
-}
-
-
-//--------------------------------------------------------------------------------------------------
 // cybsp_syspm_dsram_init
 //--------------------------------------------------------------------------------------------------
-cy_rslt_t cybsp_syspm_dsram_init(void)
+__WEAK cy_rslt_t cybsp_syspm_dsram_init(void)
 {
-    cy_rslt_t result = CY_RSLT_SUCCESS;
-
-    result = cybsp_register_syspm_dsram_callback();
     /* Currently only GCC_ARM compiler is supported for DS-RAM Warmboot Re-entry*/
     #if defined(__GNUC__) && !defined(__ARMCC_VERSION)
     Cy_Syslib_SetWarmBootEntryPoint((uint32_t*)&syspmBspDeepSleepEntryPoint, true);
     #endif
 
-    return result;
+    return CY_RSLT_SUCCESS;
 }
 
 

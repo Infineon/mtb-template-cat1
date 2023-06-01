@@ -43,7 +43,7 @@ GROUP(libgcc.a libc.a libm.a libnosys.a)
 ENTRY(Reset_Handler)
 
 /* Memory reserved for Bootstrap code and data */
-BOOTSTRAP_SIZE = DEFINED(BOOTSTRAP_SIZE) ? BOOTSTRAP_SIZE : 0x00002400 ;
+BOOTSTRAP_SIZE = DEFINED(APP_BOOTSTRAP_SIZE) ? APP_BOOTSTRAP_SIZE : 0x00002400 ;
 
 /* The size of the stack section at the end of CM4 SRAM */
 STACK_SIZE = 0x1000;
@@ -322,7 +322,12 @@ SECTIONS
         *cy_syslib*.o(.text*)
         *ppu_v1.o(.text*)
         *cy_mpc.o(.text*)
-        *cy_pd_ppu.o(.text*)
+        *cy_syspm_ppu.o(.text*)
+
+        *libg_nano.a:lib_a-memcpy-stub.o (.text*)   /* add memcpy from the NewLib library here*/
+        *libg_nano.a:lib_a-memset.o (.text*)        /* add memcpy from the NewLib library here*/
+        *libg_nano.a:lib_a-memmove.o (.text*)       /* add memcpy from the NewLib library here*/
+        *libm.a:lib_a-s_fabs.o (.text*)
 
         KEEP(*(.cy_l1func*))
 
@@ -354,10 +359,6 @@ SECTIONS
         *ns_start_cyw20829.o(.data* .rodata .rodata.* .constdata .constdata.* .conststring .conststring.*)
         *ns_system_cyw20829.o(.data* .rodata .rodata.* .constdata .constdata.* .conststring .conststring.*)
 
-        *libg_nano.a:lib_a-memcpy-stub.o (.text*)   /* add memcpy from the NewLib library here*/
-        *libg_nano.a:lib_a-memset.o (.text*)   /* add memcpy from the NewLib library here*/
-        *libg_nano.a:lib_a-memmove.o (.text*)   /* add memcpy from the NewLib library here*/
-        *libm.a:lib_a-s_fabs.o (.text*)
         /* drivers */
         *cy_device.o(.data* .rodata .rodata.* .constdata .constdata.* .conststring .conststring.*)
         *cy_btss.o(.data* .rodata .rodata.* .constdata .constdata.* .conststring .conststring.*)
