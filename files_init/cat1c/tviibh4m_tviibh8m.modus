@@ -138,10 +138,7 @@
                     </Personality>
                 </Block>
                 <Block location="srss[0].clock[0].timerclk[0]">
-                    <Personality template="timerclk" version="3.0">
-                        <Param id="sourceClock" value="imo"/>
-                        <Param id="timerDivider" value="1"/>
-                    </Personality>
+                    <Personality template="timerclk" version="3.0"/>
                 </Block>
             </BlockConfig>
             <Netlist>

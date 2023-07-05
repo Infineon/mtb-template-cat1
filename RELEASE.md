@@ -1,6 +1,9 @@
 # ModusToolbox CAT1 BSP Template Library Release Notes
 
 ### What Changed?
+#### v1.2.1
+* Added explicit include for `cycfg_pins.h` in `cybsp_hw_config.h`
+* Updated linker scripts and startup code to align with mtb-pdl-cat1 v3.4.0
 #### v1.2.0
 * Added support for BSP Assistant chip flow
 * Update MTBX dependencies to use MTB 3.0 Query APIs
@@ -17,8 +20,8 @@ This version of mtb-template-cat1 was validated for compatibility with the follo
 
 | Software and Tools                        | Version |
 | :---                                      | :----:  |
-| ModusToolbox™ Software Environment        | 3.0.0   |
-| GCC Compiler                              | 10.3.1  |
+| ModusToolbox™ Software Environment        | 3.1.0   |
+| GCC Compiler                              | 12.2.1  |
 | IAR Compiler                              | 9.30.1  |
 | ARM Compiler                              | 6.16    |
 

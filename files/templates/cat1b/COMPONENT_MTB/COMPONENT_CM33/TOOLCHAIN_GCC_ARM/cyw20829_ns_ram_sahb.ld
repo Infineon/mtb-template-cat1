@@ -329,7 +329,7 @@ SECTIONS
      * size of stack_dummy section */
     . = ALIGN(32);
     __StackTop = ORIGIN(ram) + LENGTH(ram);
-    __StackLimit = __StackTop - SIZEOF(.stack_dummy);
+    __StackLimit = __StackTop - STACK_SIZE;
     PROVIDE(__stack = __StackTop);
 
     /* Check if data + heap + stack exceeds RAM limit */

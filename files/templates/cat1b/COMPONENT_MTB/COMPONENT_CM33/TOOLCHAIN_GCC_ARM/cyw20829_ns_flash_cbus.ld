@@ -160,7 +160,7 @@ SECTIONS
      * size of stack_dummy section */
     . = ALIGN(32);
     __StackTop = RAM_START_ADDR_SAHB + STACK_SIZE;
-    __StackLimit = __StackTop - SIZEOF(.stack_dummy);
+    __StackLimit = __StackTop - STACK_SIZE;
     PROVIDE(__stack = __StackTop);
 
     . = ALIGN(RAMVECTORS_ALIGNMENT);
@@ -303,8 +303,8 @@ SECTIONS
         . = ALIGN(4);
 
         /* startup code */
-        *ns_start_cyw20829.o(.text*)
-        *ns_system_cyw20829.o(.text*)
+        *startup_cat1b_cm33.o(.text*)
+        *system_cyw20829.o(.text*)
 
         /* drivers */
         *cy_device.o(.text*)
@@ -344,8 +344,8 @@ SECTIONS
         . = ALIGN(4);
 
         /* startup code */
-        *ns_start_cyw20829.o(.data* .rodata .rodata.* .constdata .constdata.* .conststring .conststring.*)
-        *ns_system_cyw20829.o(.data* .rodata .rodata.* .constdata .constdata.* .conststring .conststring.*)
+        *startup_cat1b_cm33.o(.data* .rodata .rodata.* .constdata .constdata.* .conststring .conststring.*)
+        *system_cyw20829.o(.data* .rodata .rodata.* .constdata .constdata.* .conststring .conststring.*)
 
         /* drivers */
         *cy_device.o(.data* .rodata .rodata.* .constdata .constdata.* .conststring .conststring.*)
@@ -371,8 +371,8 @@ SECTIONS
         __bootstrap_bss_start__ = .;
 
         /* startup code */
-        *ns_start_cyw20829.o(.bss* COMMON)
-        *ns_system_cyw20829.o(.bss* COMMON)
+        *startup_cat1b_cm33.o(.bss* COMMON)
+        *system_cyw20829.o(.bss* COMMON)
 
         /* drivers */
         *cy_device.o(.bss* COMMON)
