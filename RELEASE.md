@@ -1,6 +1,9 @@
 # ModusToolbox CAT1 BSP Template Library Release Notes
 
 ### What Changed?
+#### v1.3.0
+* Fixed issue where CM0P prebuilt image would enable both CM7 cores on devices which contain
+* Added options for setting configuration of WL companion radio REG_ON and HOST_WAKE pins.
 #### v1.2.2
 * Production support for CYW20829 devices
 * Updated linker scripts and startup code to align with mtb-pdl-cat1 v3.6.0
