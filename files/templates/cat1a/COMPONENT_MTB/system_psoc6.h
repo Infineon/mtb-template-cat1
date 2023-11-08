@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file system_psoc6.h
-* \version 2.95.1
+* \version 2.100
 *
 * \brief Device system header file.
 *
@@ -334,6 +334,11 @@
 *       <th>Reason for Change</th>
 *   </tr>
 *   <tr>
+*       <td rowspan="1">2.100</td>
+*       <td>Added support for TRAVEO&trade; II Body Entry devices.</td>
+*       <td>Code enhancement and support for new devices.</td>
+*   </tr> 
+*   <tr>
 *       <td rowspan="1">2.95.1</td>
 *       <td>Restructured documentation.</td>
 *       <td>Documentation update.</td>
@@ -552,7 +557,15 @@ extern "C" {
 *        <i>(USER SETTING)</i>
 *******************************************************************************/
 #if !defined (CY_CORTEX_M4_APPL_ADDR)
-    #define CY_CORTEX_M4_APPL_ADDR          (CY_FLASH_BASE + 0x2000U)   /* <<< 8 kB of flash is reserved for the Cortex-M0+ application */
+    #if defined (CY_DEVICE_TVIIBE4M)
+        #include "tviibe4m_partition.h"
+        #define CY_CORTEX_M4_APPL_ADDR          BASE_CODE_FLASH_CM4_0
+    #elif defined (CY_DEVICE_TVIIBE1M)
+        #include "tviibe1m_partition.h"
+        #define CY_CORTEX_M4_APPL_ADDR          BASE_CODE_FLASH_CM4_0
+    #else
+        #define CY_CORTEX_M4_APPL_ADDR          (CY_FLASH_BASE + 0x2000U)   /* <<< 8 kB of flash is reserved for the Cortex-M0+ application */
+    #endif
 #endif /* (CY_CORTEX_M4_APPL_ADDR) */
 
 

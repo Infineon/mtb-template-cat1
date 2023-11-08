@@ -1,6 +1,8 @@
 # ModusToolbox CAT1 BSP Template Library Release Notes
 
 ### What Changed?
+#### v1.4.0
+* Production support for Traveo II Body Entry devices.
 #### v1.3.0
 * Fixed issue where CM0P prebuilt image would enable both CM7 cores on devices which contain
 * Added options for setting configuration of WL companion radio REG_ON and HOST_WAKE pins.
