@@ -33,11 +33,7 @@
 #if (defined(CY_DEVICE_TVIIBE))
 #include "cmsis_compiler.h"
 
-#if defined(CY_DEVICE_TVIIBE4M)
-#include "tviibe4m_partition.h"
-#elif defined(CY_DEVICE_TVIIBE1M)
-#include "tviibe1m_partition.h"
-#endif
+#include "tviibe_partition.h"
 
 #define CY_SYS_CM4_PWR_CTL_KEY_OPEN  (0x05FAUL)
 #define CY_SYS_CM4_PWR_CTL_KEY_CLOSE (0xFA05UL)

@@ -62,7 +62,7 @@ if (!isdefinedsymbol(__HEAP_SIZE)) {
 define symbol sram_start_reserve                = 0;
 define symbol sram_private_for_srom             = 0x00000800; /* Private SRAM for SROM (e.g. API processing). Reserved at the beginning */
 
-define symbol cm0plus_sram_reserve              = 0x00004000; /* cm0 sram size */
+define symbol cm0plus_sram_reserve              = 0x00008000; /* cm0 sram size */
 
 define symbol sram_base_address                 = 0x08000000;
 
@@ -80,7 +80,7 @@ define symbol __ICFEDIT_region_IRAM1_end__   = sram_base_address + cm0plus_sram_
 
 /* Flash */
 define symbol __ICFEDIT_region_IROM1_start__ = 0x10000000;
-define symbol __ICFEDIT_region_IROM1_end__   = 0x10001FFF;
+define symbol __ICFEDIT_region_IROM1_end__   = 0x1001FFFF;
 
 /* The following symbols define device specific memory regions and must not be changed. */
 /* Supervisory FLASH - User Data */

@@ -50,8 +50,8 @@
 ; Your changes must be aligned with the corresponding defines for CM0+ core in 'xx_cm0plus.scat',
 ; where 'xx' is the device group; for example, 'cyb06xx7_cm0plus.scat'.
 ; RAM
-#define RAM_START               0x08004000
-#define RAM_SIZE                0x0001B800
+#define RAM_START               0x08008000
+#define RAM_SIZE                0x00017800
 ; Flash
 #define FLASH_START             0x10000000
 #define FLASH_SIZE              0x00110000
@@ -82,7 +82,7 @@
 
 
 ; The size of the Cortex-M0+ application image (including MCU boot header area)
-#define FLASH_CM0P_SIZE         0x00002000
+#define FLASH_CM0P_SIZE         0x00020000
 
 ; Cortex-M0+ application flash image area
 LR_IROM (FLASH_START) (FLASH_CM0P_SIZE)

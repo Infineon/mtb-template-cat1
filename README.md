@@ -1,4 +1,4 @@
-# ModusToobox CAT1 BSP Template Library
+# ModusToolbox CAT1 BSP Template Library
 
 ## Overview
 
@@ -7,6 +7,7 @@ mtb-template-cat1 provides BSP template files for the BSP Assistant tool. mtb-te
 * CY8C6xxx
 * CYB06xxx
 * CYS06xxx
+* CYT2Bxx
 * XMC71xx
 * XMC72xx
 
@@ -36,4 +37,4 @@ Defines:
 * [ModusToolbox™](https://www.cypress.com/products/modustoolbox-software-environment)
 
 ---
-© Cypress Semiconductor Corporation (an Infineon company) or an affiliate of Cypress Semiconductor Corporation, 2022.
+© Cypress Semiconductor Corporation (an Infineon company) or an affiliate of Cypress Semiconductor Corporation, 2022-2023.

@@ -1,6 +1,14 @@
 # ModusToolbox CAT1 BSP Template Library Release Notes
 
 ### What Changed?
+#### v1.5.0
+* Production support for CYT2B6 and CYT2B9 devices
+* Fixed missing file issue when using CYT2B7 devices with BSP assistant
+* Removed redundant CM0P component selections for PSoC™ 64 devices.
+* Update linker scripts and startup code to align with PDL 3.10.0 release.
+* Apply changes from 1.3.1 on top of 1.4.0
+#### v1.4.0
+* Production support for Traveo II Body Entry devices.
 #### v1.3.1
 * Enabled Configuration of FLL,PLL,Systick,Timer clocks by default for CAT1A devices.
 #### v1.3.0
@@ -30,7 +38,7 @@ This version of mtb-template-cat1 was validated for compatibility with the follo
 | :---                                      | :----:  |
 | ModusToolbox™ Software Environment        | 3.1.0   |
 | GCC Compiler                              | 11.3.1  |
-| IAR Compiler                              | 9.30.1  |
+| IAR Compiler                              | 9.40.2  |
 | ARM Compiler                              | 6.16    |
 
 Minimum required ModusToolbox™ Software Environment: v3.0.0

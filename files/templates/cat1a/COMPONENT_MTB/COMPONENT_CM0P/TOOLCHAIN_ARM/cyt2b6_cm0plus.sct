@@ -3,7 +3,7 @@
 ; to pass a scatter file through a C preprocessor.
 
 ;*******************************************************************************
-;* \file cyt2b7_cm0plus.sct
+;* \file cyt2b6_cm0plus.sct
 ;* \version 2.100
 ;*
 ;* Linker file for the ARMCC.
@@ -52,7 +52,7 @@
 ; RAM
 ; Flash
 #define FLASH_START             0x10000000
-#define FLASH_SIZE              0x00020000
+#define FLASH_SIZE              0x00008000
 
 ; The size of the stack section at the end of CM0+ SRAM
 #define STACK_SIZE              0x00001000
@@ -62,7 +62,7 @@
 
 ; SRAM reservations
 #define SRAM_BASE_ADDRESS               0x08000000  /* SRAM START */
-#define CM0PLUS_SRAM_RESERVE            0x00008000
+#define CM0PLUS_SRAM_RESERVE            0x00004000
 #define BASE_SRAM_CM0P                  SRAM_BASE_ADDRESS + SRAM_START_RESERVE + SRAM_PRIVATE_FOR_SROM
 #define SIZE_SRAM_CM0P                  CM0PLUS_SRAM_RESERVE - SRAM_START_RESERVE - SRAM_PRIVATE_FOR_SROM
 #define SRAM_CM0P_START                 BASE_SRAM_CM0P
@@ -206,7 +206,7 @@ CYMETA 0x90500000
 /* The following symbols used by the cymcuelftool. */
 /* Flash */
 #define __cy_memory_0_start 0x10000000
-#define __cy_memory_0_length  0x00110000
+#define __cy_memory_0_length  0x00090000
 #define __cy_memory_0_row_size 0x200
 
 /* Supervisory Flash */

@@ -1,5 +1,5 @@
 /*******************************************************************************
-* \file cyt2b7_cm4_dual.icf
+* \file cyt2b9_cm0plus.icf
 * \version 2.95.1
 *
 * Linker file for the IAR compiler.
@@ -19,7 +19,7 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2023 Cypress Semiconductor Corporation
+* Copyright 2016-2021 Cypress Semiconductor Corporation
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -41,23 +41,46 @@
 /*-Specials-*/
 define symbol __ICFEDIT_intvec_start__ = 0x00000000;
 
+/*-Sizes-*/
+if (!isdefinedsymbol(__STACK_SIZE)) {
+  define symbol __ICFEDIT_size_cstack__ = 0x1000;
+} else {
+  define symbol __ICFEDIT_size_cstack__ = __STACK_SIZE;
+}
+define symbol __ICFEDIT_size_proc_stack__ = 0x0;
+
+/* Defines the minimum heap size. The actual heap size will be expanded to the end of the stack region */
+if (!isdefinedsymbol(__HEAP_SIZE)) {
+    define symbol __ICFEDIT_size_heap__ = 0x0400;
+} else {
+  define symbol __ICFEDIT_size_heap__ = __HEAP_SIZE;
+}
+
 /* The symbols below define the location and size of blocks of memory in the target.
  * Use these symbols to specify the memory regions available for allocation.
  */
+define symbol sram_start_reserve                = 0;
+define symbol sram_private_for_srom             = 0x00000800; /* Private SRAM for SROM (e.g. API processing). Reserved at the beginning */
 
-/* The following symbols control RAM and flash memory allocation for the CM4 core.
+define symbol cm0plus_sram_reserve              = 0x00010000; /* cm0 sram size */
+
+define symbol sram_base_address                 = 0x08000000;
+
+define symbol _base_SRAM_CM0P                   = sram_base_address + sram_start_reserve + sram_private_for_srom;
+define symbol _size_SRAM_CM0P                   = cm0plus_sram_reserve - sram_start_reserve - sram_private_for_srom;
+
+/* The following symbols control RAM and flash memory allocation for the CM0+ core.
  * You can change the memory allocation by editing RAM and Flash symbols.
- * Your changes must be aligned with the corresponding symbols for CM0+ core in 'xx_cm0plus.icf',
- * where 'xx' is the device group; for example, 'cyb06xx7_cm0plus.icf'.
+ * Your changes must be aligned with the corresponding symbols for CM4 core in 'xx_cm4_dual.icf',
+ * where 'xx' is the device group; for example, 'cyb06xx7_cm4_dual.icf'.
  */
 /* RAM */
-define symbol __ICFEDIT_region_IRAM1_start__ = 0x08008000;
-define symbol __ICFEDIT_region_IRAM1_end__   = 0x0801F7FF;
+define symbol __ICFEDIT_region_IRAM1_start__ = sram_base_address + cm0plus_sram_reserve;
+define symbol __ICFEDIT_region_IRAM1_end__   = sram_base_address + cm0plus_sram_reserve - 1;
 
 /* Flash */
 define symbol __ICFEDIT_region_IROM1_start__ = 0x10000000;
-define symbol __ICFEDIT_region_IROM1_end__   = 0x1010FFFF;
-
+define symbol __ICFEDIT_region_IROM1_end__   = 0x1003FFFF;
 
 /* The following symbols define device specific memory regions and must not be changed. */
 /* Supervisory FLASH - User Data */
@@ -80,54 +103,48 @@ define symbol __ICFEDIT_region_IROM6_end__   = 0x17007DFF;
 define symbol __ICFEDIT_region_IROM7_start__ = 0x17007E00;
 define symbol __ICFEDIT_region_IROM7_end__   = 0x17007FFF;
 
+/* eFuse */
+define symbol __ICFEDIT_region_IROM8_start__ = 0x90700000;
+define symbol __ICFEDIT_region_IROM8_end__   = 0x907FFFFF;
+
 define symbol __ICFEDIT_region_EROM2_start__ = 0x0;
 define symbol __ICFEDIT_region_EROM2_end__   = 0x0;
 define symbol __ICFEDIT_region_EROM3_start__ = 0x0;
 define symbol __ICFEDIT_region_EROM3_end__   = 0x0;
 
 
-define symbol __ICFEDIT_region_IRAM2_start__ = 0x0;
-define symbol __ICFEDIT_region_IRAM2_end__   = 0x0;
+define symbol __ICFEDIT_region_IRAM2_start__ = 0x08000000;
+define symbol __ICFEDIT_region_IRAM2_end__   = 0x080007FF;
 define symbol __ICFEDIT_region_ERAM1_start__ = 0x0;
 define symbol __ICFEDIT_region_ERAM1_end__   = 0x0;
 define symbol __ICFEDIT_region_ERAM2_start__ = 0x0;
 define symbol __ICFEDIT_region_ERAM2_end__   = 0x0;
 define symbol __ICFEDIT_region_ERAM3_start__ = 0x0;
 define symbol __ICFEDIT_region_ERAM3_end__   = 0x0;
-/*-Sizes-*/
-if (!isdefinedsymbol(__STACK_SIZE)) {
-  define symbol __ICFEDIT_size_cstack__ = 0x1000;
-} else {
-  define symbol __ICFEDIT_size_cstack__ = __STACK_SIZE;
-}
-define symbol __ICFEDIT_size_proc_stack__ = 0x0;
-
-/* Defines the minimum heap size. The actual heap size will be expanded to the end of the stack region */
-if (!isdefinedsymbol(__HEAP_SIZE)) {
-    define symbol __ICFEDIT_size_heap__ = 0x0400;
-} else {
-  define symbol __ICFEDIT_size_heap__ = __HEAP_SIZE;
-}
 /**** End of ICF editor section. ###ICF###*/
 
-/* The size of the Cortex-M0+ application image (including MCU boot header area) */
-define symbol FLASH_CM0P_SIZE  = 0x00020000;
 
 define memory mem with size = 4G;
 define region IROM1_region = mem:[from __ICFEDIT_region_IROM1_start__ to __ICFEDIT_region_IROM1_end__];
+/* define region IROM2_region = mem:[from __ICFEDIT_region_IROM2_start__ to __ICFEDIT_region_IROM2_end__]; */
 define region IROM3_region = mem:[from __ICFEDIT_region_IROM3_start__ to __ICFEDIT_region_IROM3_end__];
 define region IROM4_region = mem:[from __ICFEDIT_region_IROM4_start__ to __ICFEDIT_region_IROM4_end__];
 define region IROM5_region = mem:[from __ICFEDIT_region_IROM5_start__ to __ICFEDIT_region_IROM5_end__];
 define region IROM6_region = mem:[from __ICFEDIT_region_IROM6_start__ to __ICFEDIT_region_IROM6_end__];
 define region IROM7_region = mem:[from __ICFEDIT_region_IROM7_start__ to __ICFEDIT_region_IROM7_end__];
+define region IROM8_region = mem:[from __ICFEDIT_region_IROM8_start__ to __ICFEDIT_region_IROM8_end__];
+/* define region EROM1_region = mem:[from __ICFEDIT_region_EROM1_start__ to __ICFEDIT_region_EROM1_end__]; */
 define region IRAM1_region = mem:[from __ICFEDIT_region_IRAM1_start__ to __ICFEDIT_region_IRAM1_end__];
+define region IRAM2_region = mem:[from __ICFEDIT_region_IRAM2_start__ to __ICFEDIT_region_IRAM2_end__];
+
+define region SRAM                              = mem:[from _base_SRAM_CM0P          size _size_SRAM_CM0P           ];
 
 define block CSTACK     with alignment = 8, size = __ICFEDIT_size_cstack__     { };
 define block PROC_STACK with alignment = 8, size = __ICFEDIT_size_proc_stack__ { };
 define block HEAP       with expanding size, alignment = 8, minimum size = __ICFEDIT_size_heap__ { };
 define block HSTACK {block HEAP, block PROC_STACK, last block CSTACK};
-define block CM0P_RO with size = (FLASH_CM0P_SIZE)  { readonly section .cy_m0p_image };
 define block RO     {first section .intvec, readonly};
+
 
 /*-Initializations-*/
 initialize by copy { readwrite };
@@ -135,14 +152,9 @@ do not initialize  { section .noinit, section .intvec_ram };
 
 /*-Placement-*/
 
-/* Flash - Cortex-M0+ application image */
-place at address (__ICFEDIT_region_IROM1_start__)  { block CM0P_RO };
-
-/* Flash - Cortex-M4 application */
-place at address (__ICFEDIT_region_IROM1_start__ + FLASH_CM0P_SIZE) { block RO };
-
-/* Used for the digital signature of the secure application and the Bootloader SDK application. */
-".cy_app_signature" : place at address (__ICFEDIT_region_IROM1_end__ - 0x200) { section .cy_app_signature };
+/* Flash - Cortex-M0+ application */
+".cy_app_header" : place at start of IROM1_region  { section .cy_app_header };
+place at address (__ICFEDIT_region_IROM1_start__) { block RO };
 
 /* Supervisory Flash - User Data */
 ".cy_sflash_user_data" : place at start of IROM3_region  { section .cy_sflash_user_data };
@@ -159,21 +171,46 @@ place at address (__ICFEDIT_region_IROM1_start__ + FLASH_CM0P_SIZE) { block RO }
 /* Supervisory Flash - RTOC2 */
 ".cy_rtoc_part2" : place at start of IROM7_region  { section .cy_rtoc_part2 };
 
+/* eFuse */
+".cy_efuse" : place at start of IROM8_region  { section .cy_efuse };
 
 /* RAM */
-place at start of IRAM1_region  { readwrite section .intvec_ram};
-place in          IRAM1_region  { readwrite };
-place at end   of IRAM1_region  { block HSTACK };
+place at start of SRAM  { readwrite section .intvec_ram};
+place in          SRAM  { readwrite };
+place at end   of SRAM  { block HSTACK };
 
-keep {  section .cy_m0p_image,
-        section .cy_app_signature,
+/* Public RAM */
+place at start of IRAM2_region  { section .cy_sharedmem };
+
+/* These sections are used for additional metadata (silicon revision, Silicon/JTAG ID, etc.) storage. */
+".cymeta" : place at address mem : 0x90500000 { readonly section .cymeta };
+
+
+keep {  section .cy_app_header,
         section .cy_sflash_user_data,
         section .cy_sflash_nar,
         section .cy_sflash_public_key,
         section .cy_toc_part2,
         section .cy_rtoc_part2,
+        section .cy_efuse,
+        section .cymeta,
          };
 
 
+/* The following symbols used by the cymcuelftool. */
+/* Flash */
+define exported symbol __cy_memory_0_start    = 0x10000000;
+define exported symbol __cy_memory_0_length   = 0x00210000;
+define exported symbol __cy_memory_0_row_size = 0x200;
+
+/* Supervisory Flash */
+define exported symbol __cy_memory_2_start    = 0x17000000;
+define exported symbol __cy_memory_2_length   = 0x8000;
+define exported symbol __cy_memory_2_row_size = 0x200;
+
+/* eFuse */
+define exported symbol __cy_memory_4_start    = 0x90700000;
+define exported symbol __cy_memory_4_length   = 0x100000;
+define exported symbol __cy_memory_4_row_size = 1;
 
 /* EOF */

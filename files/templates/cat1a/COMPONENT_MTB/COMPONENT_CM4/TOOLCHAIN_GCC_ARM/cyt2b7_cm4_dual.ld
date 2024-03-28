@@ -44,7 +44,7 @@ ENTRY(Reset_Handler)
 STACK_SIZE = 0x1000;
 
 /* The size of the Cortex-M0+ application image (including MCU boot header area) */
-FLASH_CM0P_SIZE  = 0x00002000;
+FLASH_CM0P_SIZE  = 0x00020000;
 
 /* Force symbol to be entered in the output file as an undefined symbol. Doing
 * this may, for example, trigger linking of additional modules from standard
@@ -66,7 +66,7 @@ MEMORY
      * Your changes must be aligned with the corresponding memory regions for CM0+ core in 'xx_cm0plus.ld',
      * where 'xx' is the device group; for example, 'cyb06xx7_cm0plus.ld'.
      */
-    ram               (rwx)   : ORIGIN = 0x08004000, LENGTH = 0x1B800
+    ram               (rwx)   : ORIGIN = 0x08008000, LENGTH = 0x17800
     flash             (rx)    : ORIGIN = 0x10000000, LENGTH = 0x110000
 
     /* The following regions define device specific memory regions and must not be changed. */

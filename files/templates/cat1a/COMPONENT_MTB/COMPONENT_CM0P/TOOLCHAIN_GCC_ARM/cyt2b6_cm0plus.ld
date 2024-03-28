@@ -1,5 +1,5 @@
 /***************************************************************************//**
-* \file cyt2b7_cm0plus.ld
+* \file cyt2b6_cm0plus.ld
 * \version 2.95.1
 *
 * Linker file for the GNU C compiler.
@@ -47,12 +47,12 @@ STACK_SIZE = 0x1000;
 sram_start_reserve                  = 0;
 sram_private_for_srom               = 0x00000800; /* Private SRAM for SROM (e.g. API processing). Reserved at the beginning */
 
-cm0plus_sram_reserve                = 0x00008000; /* cm0 sram size */
-cm0plus_code_flash_reserve          = 0x00020000; /* cm0 flash size */
+cm0plus_sram_reserve                = 0x00004000; /* cm0 sram size */
+cm0plus_code_flash_reserve          = 0x00008000; /* cm0 flash size */
 
 sram_base_address                   = 0x08000000;
 code_flash_base_address             = 0x10000000;
-code_flash_total_size               = 0x00020000;
+code_flash_total_size               = 0x00008000;
 
 _base_SRAM_CM0P                     = sram_base_address + sram_start_reserve + sram_private_for_srom;
 _size_SRAM_CM0P                     = cm0plus_sram_reserve - sram_start_reserve - sram_private_for_srom;
@@ -89,7 +89,7 @@ MEMORY
      * where 'xx' is the device group; for example, 'cyb06xx7_cm4_dual.ld'.
      */
     ram               (rxw)   : ORIGIN = _base_SRAM_CM0P,         LENGTH = _size_SRAM_CM0P
-    flash             (rx)    : ORIGIN = 0x10000000, LENGTH = 0x20000
+    flash             (rx)    : ORIGIN = 0x10000000, LENGTH = 0x8000
 
     /* The following regions define device specific memory regions and must not be changed. */
     sflash_user_data  (rx)    : ORIGIN = 0x17000800, LENGTH = 0x800        /* Supervisory flash: User data */
@@ -397,7 +397,7 @@ SECTIONS
 /* The following symbols used by the cymcuelftool. */
 /* Flash */
 __cy_memory_0_start    = 0x10000000;
-__cy_memory_0_length   = 0x00110000;
+__cy_memory_0_length   = 0x00090000;
 __cy_memory_0_row_size = 0x200;
 
 /* Supervisory Flash */
