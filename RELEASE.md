@@ -1,9 +1,8 @@
 # ModusToolbox CAT1 BSP Template Library Release Notes
 
 ### What Changed?
-#### v1.5.1
-* Fixed bugs with deps and makefile for XMC7000 MPN's.
-* Added missing files to 20829 chipflow.
+#### v1.6.0
+* Production support for Traveo II C-2D-6M devices.
 #### v1.5.0
 * Production support for CYT2B6 and CYT2B9 devices
 * Fixed missing file issue when using CYT2B7 devices with BSP assistant

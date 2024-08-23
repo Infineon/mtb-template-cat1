@@ -45,6 +45,12 @@ BSP_COMPONENTS:=
 # Any additional defines to apply when using this board.
 BSP_DEFINES:=
 
+# Middleware graphics support for CYT4DN devices requires single-precision
+# hardware floating point.  Changing to soft floating point or the precision
+# will cause compatibility issues with graphics.
+VFP_SELECT=hardfp
+VFP_SELECT_PRECISION=singlefp
+
 # Path to the flash loaders to patch for this board
 CY_QSPI_FLM_DIR=$(MTB_TOOLS__TARGET_DIR)/config/FlashLoaders/
 

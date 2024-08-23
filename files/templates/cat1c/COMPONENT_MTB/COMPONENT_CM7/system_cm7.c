@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file system_cm7.c
-* \version 1.1
+* \version 1.2
 *
 * The device system-source file.
 *
@@ -174,7 +174,7 @@ void SystemCoreClockUpdate (void)
     #endif
 
     /* This is part of the clock tree for the CM0+; do not use for CM7 clock calculations. */
-    cy_Hfclk0FreqHz = Cy_SysClk_ClkHfGetFrequency(CY_SYSCLK_CLK_PERI_HF_PATH_NUM);
+    cy_Hfclk0FreqHz = Cy_SysClk_ClkHfGetFrequency(CY_SYSCLK_CLK_CORE_HF_PATH_NUM);
 
     /* Get frequency for the high-frequency clock # 2 , which is used for PERI PCLK. */
     cy_PeriClkFreqHz = Cy_SysClk_ClkHfGetFrequency(CY_SYSCLK_CLK_PERI_HF_PATH_NUM);
