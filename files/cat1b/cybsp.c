@@ -34,8 +34,13 @@
 #include "cyhal_hwmgr.h"
 #include "cyhal_syspm.h"
 #endif
+#if defined(CY_USING_HAL) || defined(CY_USING_HAL_LITE)
+#include "cyhal_system.h"
+#endif
 #include "cybsp_dsram.h"
+#if defined(CY_IP_MXSMIF_INSTANCES) && (CY_IP_MXSMIF_INSTANCES > 0)
 #include "cycfg_qspi_memslot.h"
+#endif
 
 #if defined(__cplusplus)
 extern "C" {
@@ -53,19 +58,29 @@ cy_rslt_t cybsp_init(void)
 
     if (CY_RSLT_SUCCESS == result)
     {
+        #if (CYHAL_DRIVER_AVAILABLE_SYSPM)
         result = cyhal_syspm_init();
+        #endif
     }
+    #else // if defined(CY_USING_HAL)
+    cy_rslt_t result = CY_RSLT_SUCCESS;
+    #endif // if defined(CY_USING_HAL)
 
     #ifdef CY_CFG_PWR_VDDA_MV
     if (CY_RSLT_SUCCESS == result)
     {
+        #if defined(CY_USING_HAL)
+        // Old versions of classic HAL have this API in the Syspm HAL. In versions of HAL which
+        // support HAL-Lite configuration, this is moved to the System HAL, with compatibility
+        // macros that exist in classic HAL configuration only (HAL-Lite configuration does
+        // not include SysPm HAL)
         cyhal_syspm_set_supply_voltage(CYHAL_VOLTAGE_SUPPLY_VDDA, CY_CFG_PWR_VDDA_MV);
+        #elif defined(CY_USING_HAL_LITE)
+        cyhal_system_set_supply_voltage(CYHAL_VOLTAGE_SUPPLY_VDDA, CY_CFG_PWR_VDDA_MV);
+        #endif
     }
-    #endif
+    #endif // ifdef CY_CFG_PWR_VDDA_MV
 
-    #else // if defined(CY_USING_HAL)
-    cy_rslt_t result = CY_RSLT_SUCCESS;
-    #endif // if defined(CY_USING_HAL)
 
     init_cycfg_all();
 

@@ -31,7 +31,9 @@
 #include "cyhal_hwmgr.h"
 #include "cyhal_syspm.h"
 #endif
+#if ((CY_PDL_FLASH_BOOT) && (CYHAL_DRIVER_AVAILABLE_QSPI))
 #include "cybsp_smif_init.h"
+#endif
 #if defined(CY_RTOS_AWARE) || defined(COMPONENT_RTOS_AWARE)
 #include "cyabs_rtos_dsram.h"
 #endif
@@ -64,7 +66,7 @@ void cybsp_warmboot_handler(void)
 {
     SystemInit_Warmboot_CAT1B_CM33();
 
-    #if FLASH_BOOT
+    #if ((CY_PDL_FLASH_BOOT) && (CYHAL_DRIVER_AVAILABLE_QSPI))
     cybsp_smif_enable();
     cybsp_smif_init();
     #endif

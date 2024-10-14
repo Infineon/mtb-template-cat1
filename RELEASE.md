@@ -1,6 +1,8 @@
 # ModusToolbox CAT1 BSP Template Library Release Notes
 
 ### What Changed?
+#### v1.6.1
+* Production support for FX2G3,FX3G2 devices. Bugfix for PSOC6 Frequencies
 #### v1.6.0
 * Production support for Traveo II C-2D-6M devices.
 #### v1.5.0
@@ -25,6 +27,9 @@
 #### v1.2.0
 * Added support for BSP Assistant chip flow
 * Update MTBX dependencies to use MTB 3.0 Query APIs
+#### v1.2.0
+* Added support for BSP Assistant chip flow
+* Update MTBX dependencies to use MTB 3.0 Query APIs
 #### v1.1.0
 * Fix ifdef for CM0P core in cybsp.c
 * Add `cybsp_hw_config.h` to fileset.
@@ -39,7 +44,7 @@ This version of mtb-template-cat1 was validated for compatibility with the follo
 | Software and Tools                        | Version |
 | :---                                      | :----:  |
 | ModusToolbox™ Software Environment        | 3.1.0   |
-| GCC Compiler                              | 11.3.1  |
+| GCC Compiler                              | 12.2.1  |
 | IAR Compiler                              | 9.40.2  |
 | ARM Compiler                              | 6.16    |
 

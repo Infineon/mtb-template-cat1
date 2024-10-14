@@ -27,14 +27,14 @@
 
 #include <stdlib.h>
 #include "cybsp_pm_callbacks.h"
-#include "cycfg_qspi_memslot.h"
 #include "cy_sysclk.h"
 #include "cybsp_dsram.h"
-#include "cybsp_smif_init.h"
 
 // Must be defined in file for RAM functions to utilize during Deep Sleep callback to wake
 // up external flash memory. Needs reference here when external flash is powered down in DS.
-#if CY_PDL_FLASH_BOOT
+#if ((CY_PDL_FLASH_BOOT) && (CYHAL_DRIVER_AVAILABLE_QSPI))
+#include "cycfg_qspi_memslot.h"
+#include "cybsp_smif_init.h"
 cy_stc_smif_mem_config_t** smifConfigLocal = smifMemConfigs;
 #endif
 
@@ -42,7 +42,7 @@ cy_stc_smif_mem_config_t** smifConfigLocal = smifMemConfigs;
 extern "C" {
 #endif
 
-#if (CY_PDL_FLASH_BOOT && (defined(CY_DEVICE_CYW20829) && \
+#if (CY_PDL_FLASH_BOOT && (defined(CY_DEVICE_CYW20829) && (CYHAL_DRIVER_AVAILABLE_QSPI) && \
     (CY_SYSLIB_GET_SILICON_REV_ID != CY_SYSLIB_20829A0_SILICON_REV)))
 #define CY_EXT_MEM_POWER_DOWN_SUPPORTED
 #endif

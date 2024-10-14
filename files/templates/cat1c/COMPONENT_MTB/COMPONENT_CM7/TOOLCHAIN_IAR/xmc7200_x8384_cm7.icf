@@ -42,7 +42,9 @@ define symbol sram_private_for_srom             = 0x00000800; /* Private SRAM fo
 define symbol sram_used_by_boot                 = 0x0; /* Used during boot by Cypress firmware (content will be overwritten on reset, so it should not be used for loadable sections in case of RAM build configurations) */
 
 define symbol cm0plus_sram_reserve              = 0x00004000; /* 16K   : cm0 sram size */
-define symbol cm7_0_sram_reserve                = 0x000FC000; /* 1008K : cm7_0 sram size */
+define symbol cm7_0_sram_reserve                = 0x000F4000; /* 976K : cm7_0 sram size */
+define symbol cm7_sram_non_cache_reserve        = 0x00008000; /* 32K  :non-cacheable sram size */
+
 
 define symbol code_flash_total_size             = 0x00830000; /* 8384K: total flash size */
 define symbol cm0plus_code_flash_reserve        = 0x00080000; /* 512K : cm0 flash size */
@@ -76,9 +78,13 @@ define symbol __ICFEDIT_intvec_start__ = 0x00000000;
  */
 /* RAM */
 define symbol __ICFEDIT_region_IRAM1_start__ = 0x28004000; // sram_base_address + cm0plus_sram_reserve;
-define symbol __ICFEDIT_region_IRAM1_end__   = 0x280FFFFF; // cm7_0_sram_reserve;
+define symbol __ICFEDIT_region_IRAM1_end__   = 0x280F7FFF; // cm7_0_sram_reserve;
 define symbol __ICFEDIT_region_IRAM2_start__ = 0x0;
 define symbol __ICFEDIT_region_IRAM2_end__   = 0x0;
+/* RAM non-cacheable ram */
+/* Always make sure that the starting address of the non-cacheable region is aligned to the non-cacheable region size boundary. */
+define symbol __ICFEDIT_region_IRAM3_start__ = 0x280F8000; // sram_base_address + cm0plus_sram_reserve + cm7_0_sram_reserve;
+define symbol __ICFEDIT_region_IRAM3_end__   = 0x280FFFFF; // sram_total_size - cm0plus_sram_reserve - cm7_0_sram_reserve;
 
 /* Flash */
 define symbol __ICFEDIT_region_IROM1_start__ = 0x10080000; // code_flash_base_address + cm0plus_code_flash_reserve
@@ -117,6 +123,9 @@ define symbol stack_reserve                     = (__ICFEDIT_size_cstack__ + (ec
 define symbol _base_SRAM_CM7_0                  = __ICFEDIT_region_IRAM1_start__;
 define symbol _size_SRAM_CM7_0                  = __ICFEDIT_region_IRAM1_end__ - __ICFEDIT_region_IRAM1_start__ + 1;
 
+define symbol _base_SRAM_NON_CACHE              = __ICFEDIT_region_IRAM3_start__;
+define symbol _size_SRAM_NON_CACHE              = __ICFEDIT_region_IRAM3_end__ - __ICFEDIT_region_IRAM3_start__ + 1;
+
 /* Code flash reservations */
 define symbol _base_CODE_FLASH_CM0P             = code_flash_base_address;
 define symbol _size_CODE_FLASH_CM0P             = cm0plus_code_flash_reserve;
@@ -137,8 +146,9 @@ define symbol _size_CODE_FLASH                  = _size_CODE_FLASH_CM7_0;
 
 define memory mem with size = 4G;
 
-define region SRAM                              = mem:[from _base_SRAM                  size _size_SRAM       ];
-define region CODE_FLASH                        = mem:[from _base_CODE_FLASH            size _size_CODE_FLASH ];
+define region SRAM                              = mem:[from _base_SRAM                  size _size_SRAM          ];
+define region SRAM_NONCACHE                     = mem:[from _base_SRAM_NON_CACHE        size _size_SRAM_NON_CACHE];
+define region CODE_FLASH                        = mem:[from _base_CODE_FLASH            size _size_CODE_FLASH    ];
 
 /*============================================================
  * Block definitions
@@ -149,6 +159,7 @@ define block HEAP           with expanding size, alignment = 8, minimum size = h
 define block HEAP_STACK     { block HEAP, last block CSTACK };
 define block CM0P_RO with size = (_size_CODE_FLASH_CM0P)  { readonly section .cy_m0p_image };
 define block CY_SHAREDMEM   with alignment = 32 { section .cy_sharedmem };
+define block CY_NONCACHE    { section .ram_noncache };
 
 /*============================================================
  * Initialization
@@ -174,6 +185,8 @@ place in          CODE_FLASH  { readonly };
 place in          SRAM  { readwrite };
 place in          SRAM  { block CY_SHAREDMEM };
 place at end   of SRAM  { block HEAP_STACK };
+
+place in          SRAM_NONCACHE  { block CY_NONCACHE };
 
 keep {  section .intvec  };
 keep {  section .cy_m0p_image  };

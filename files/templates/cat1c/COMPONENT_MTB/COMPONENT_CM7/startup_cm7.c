@@ -323,6 +323,8 @@ void software_init_hook()
 {
     cy_toolchain_init();
 }
+
+
 #elif defined(__ICCARM__)
 /* Initialize data section */
 void __iar_data_init3(void);
@@ -341,12 +343,30 @@ int __low_level_init(void)
 /**/
 #endif /* defined(__GNUC__) && !defined(__ARMCC_VERSION) */
 
+#if !defined(CY_DEVICE_TVIIC2D6M)
+void config_noncaheable_region(void)
+{
+
+    ARM_MPU_Disable();
+    /* Configure 32KB of SRAM as a non-cache region starting from BASE_SRAM_NON_CACHE
+       Always make sure that the starting address of the non-cacheable region is aligned to the non-cacheable region size boundary.
+    */
+    ARM_MPU_SetRegionEx(0, (uint32_t)BASE_SRAM_NON_CACHE, \
+                         ARM_MPU_RASR(1, ARM_MPU_AP_FULL, 0x1, 0, 0, 0, 0, \
+                         ARM_MPU_REGION_SIZE_32KB));
+    ARM_MPU_Enable(0x4);
+
+}
+#endif
 
 // Reset Handler
 void Reset_Handler(void)
 {
     /* disable global interrupt */
     __disable_irq();
+#if !defined(CY_DEVICE_TVIIC2D6M)
+    config_noncaheable_region();
+#endif
 
     /* Allow write access to Vector Table Offset Register and ITCM/DTCM configuration register
      * (CPUSS_CM7_X_CTL.PPB_LOCK[3] and CPUSS_CM7_X_CTL.PPB_LOCK[1:0]) */
