@@ -36,11 +36,8 @@
 #if defined(CYBSP_WIFI_CAPABLE) && defined(CYHAL_UDB_SIO)
 #include "SDIO_HOST.h"
 #endif
-
-#elif defined(CY_USING_HAL_LITE)
-#include "cyhal_system.h"
 #endif // defined(CY_USING_HAL)
-
+#include "cyhal_system.h"
 #if defined(COMPONENT_MW_CAT1CM0P)
     #include "mtb_cat1cm0p.h"
 #endif

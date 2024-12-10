@@ -1,6 +1,12 @@
 # ModusToolbox CAT1 BSP Template Library Release Notes
 
 ### What Changed?
+#### v1.7.0
+* Add support for PSOC Control C3 devices.
+* Remove incorrect HAL dependency for Traveo II C-2D-6M devices.
+* Increment BSP generation number to 5 for CAT1A and CAT1B to
+  reflect that BSPs created using this template version provide
+  equivalent functionality to the generation 5 kit BSPs.
 #### v1.6.1
 * Production support for FX2G3,FX3G2 devices. Bugfix for PSOC6 Frequencies
 #### v1.6.0

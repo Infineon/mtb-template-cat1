@@ -1,0 +1,6 @@
+files_init/cat1d/props.json:props.json
+files_init/cat1d/bsp.mk:bsp.mk
+files_init/cat1d/design.modus:config/design.modus
+files/flashloader/cat1d/PSE84_SMIF.FLM:config/GeneratedSource/PSE84_SMIF.FLM
+files/flashloader/cat1d/FlashPSE84_SMIF.out:config/GeneratedSource/FlashPSE84_SMIF.out
+files/flashloader/cat1d/version.xml:config/FlashLoaders/version.xml
