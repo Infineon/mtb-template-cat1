@@ -52,8 +52,8 @@ sram_private_for_srom               = 0x00000800; /* Private SRAM for SROM (e.g.
 sram_used_by_boot                   = 0x0; /* Used during boot by Cypress firmware (content will be overwritten on reset, so it should not be used for loadable sections in case of RAM build configurations) */
 
 cm0plus_sram_reserve                = 0x00004000; /* 16K  : cm0 sram size */
-cm7_0_sram_reserve                  = 0x000B4000; /* 720K : cm7_0 sram size */
-cm7_sram_non_cache_reserve          = 0x00008000; /* 32K  :non-cacheable sram size */
+cm7_sram_non_cache_reserve          = 0x00020000; /* 128K  :non-cacheable sram size */
+cm7_0_sram_reserve                  = sram_total_size - cm0plus_sram_reserve - cm7_sram_non_cache_reserve; /* 624K : cm7_0 sram size */
 
 code_flash_total_size               = 0x00410000; /* 4160K: total flash size */
 cm0plus_code_flash_reserve          = 0x00080000; /* 512K : cm0 flash size */
@@ -315,9 +315,6 @@ SECTIONS
         KEEP(*(.cy_ramfunc*))
         . = ALIGN(32);
 
-        KEEP(*(cy_sharedmem*))
-        . = ALIGN(4);
-
         __data_end__ = .;
 
     } > ram AT>flash
@@ -326,9 +323,9 @@ SECTIONS
 
     .ram_noncache :
     {
-        . = ALIGN(_size_SRAM_NON_CACHE);
+        . = ALIGN(32);
         __noncacheable_ram_start__ = .;
-        *(.ram_noncache)
+        *(.cy_sharedmem)
         . = ALIGN(4);
         __noncacheable_ram_end__ = .;
     } > ram_noncache AT>flash

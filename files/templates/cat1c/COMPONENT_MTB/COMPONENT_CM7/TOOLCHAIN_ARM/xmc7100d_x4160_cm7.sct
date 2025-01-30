@@ -65,9 +65,9 @@
 ; RAM
 #define SRAM_BASE_ADDRESS               0x28000000  /* SRAM START */
 #define CM0PLUS_SRAM_RESERVE            0x00004000 /* 16K : cm0 sram size */
-#define CM7_0_SRAM_RESERVE              0x000A4000 /* 656K: cm7_0 sram size */
 #define CM7_1_SRAM_RESERVE              0x00010000  /* 64k: cm7_1 sram size */
-#define CM7_NON_CACHEABLE_SRAM_RESERVE  0x00008000  /* 32k: non-cacheable sram size */
+#define CM7_NON_CACHEABLE_SRAM_RESERVE  0x00020000  /* 128k: non-cacheable sram size */
+#define CM7_0_SRAM_RESERVE              SRAM_TOTAL_SIZE - CM0PLUS_SRAM_RESERVE - CM7_1_SRAM_RESERVE - CM7_NON_CACHEABLE_SRAM_RESERVE /* 560K: cm7_0 sram size */
 
 ; FLASH
 #define CODE_FLASH_BASE_ADDRESS         0x10000000  /* FLASH START */
@@ -83,7 +83,7 @@
 #define SIZE_SRAM_CM7_1                 SRAM_TOTAL_SIZE - CM0PLUS_SRAM_RESERVE - CM7_0_SRAM_RESERVE - CM7_NON_CACHEABLE_SRAM_RESERVE /* 64K : cm7_1 sram size */
 #define BASE_SRAM_CM7_1                 SRAM_BASE_ADDRESS + CM0PLUS_SRAM_RESERVE + CM7_0_SRAM_RESERVE   /* 64K: cm7_1 sram size */
 /* Always make sure that the starting address of the non-cacheable region is aligned to the non-cacheable region size boundary. */
-#define SIZE_SRAM_NON_CACHE             SRAM_TOTAL_SIZE - CM0PLUS_SRAM_RESERVE - CM7_0_SRAM_RESERVE - CM7_1_SRAM_RESERVE /* 32K : non-cacheable sram size */
+#define SIZE_SRAM_NON_CACHE             CM7_NON_CACHEABLE_SRAM_RESERVE /* 128K : non-cacheable sram size */
 #define BASE_SRAM_NON_CACHE             SRAM_BASE_ADDRESS + CM0PLUS_SRAM_RESERVE + CM7_0_SRAM_RESERVE + CM7_1_SRAM_RESERVE
 
 ; Code flash reservations
@@ -145,11 +145,6 @@ LR_IROM1 BASE_CODE_FLASH SIZE_CODE_FLASH
         * (+RW, +ZI)
     }
 
-    RW_RAM_SHARED_DATA +0 ALIGN 32
-    {
-        * (.cy_sharedmem)
-    }
-
     ; Place variables in the section that should not be initialized during the
     ; device startup.
     RW_IRAM1 +0 UNINIT
@@ -158,11 +153,7 @@ LR_IROM1 BASE_CODE_FLASH SIZE_CODE_FLASH
         * (.bss.noinit)
     }
 
-    RAM_NONCACHE BASE_SRAM_NON_CACHE SIZE_SRAM_NON_CACHE
-    {
-        * (.ram_noncache)
-    }
-    
+
     ; Application heap area (HEAP)
     ARM_LIB_HEAP  +0 EMPTY BASE_SRAM+SIZE_SRAM-STACK_SIZE-AlignExpr(ImageLimit(RW_IRAM1), 8)
     {
@@ -172,4 +163,11 @@ LR_IROM1 BASE_CODE_FLASH SIZE_CODE_FLASH
     ARM_LIB_STACK (BASE_SRAM+SIZE_SRAM) EMPTY -STACK_SIZE
     {
     }
+
+#ifdef _CORE_CM7_0_
+    RAM_NONCACHE BASE_SRAM_NON_CACHE ALIGN 32 SIZE_SRAM_NON_CACHE
+    {
+        * (.cy_sharedmem)
+    }
+#endif
 }

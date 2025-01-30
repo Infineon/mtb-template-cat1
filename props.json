@@ -2,7 +2,7 @@
     "core": {
         "id": "a76a909a-61d7-56ca-96ca-378d4e732287",
         "name": "mtb-template-cat1",
-        "version": "1.7.0.44383"
+        "version": "1.7.1.44929"
     },
     "opt": {
         "props": {
@@ -18,48 +18,41 @@
                     "files_init": "filelist/init_psocc3.txt"
                 },
                 "CYW20829": {
-                    "components": "cat1b_components",
-                    "defines": [
-                        "hal_defines",
-                        "cat1b_defines",
-                        "connectivity_defines"
-                    ],
-                    "deps": "cat1b_dependencies",
-                    "files": [
-                        "filelist/cat1b.txt",
-                        "filelist/cyw20829.txt"
-                    ],
-                    "files_init": "filelist/init_cyw20829.txt"
-                },
-                "EXPLORER": {
-                    "components": [
-                        "connectivity_components"
-                    ],
-                    "defines": [
-                        "hal_defines",
-                        "connectivity_defines"
-                    ],
-                    "deps": "cat1d_dependencies",
-                    "files": [
-                        "filelist/cat1d.txt",
-                        "filelist/pse84.txt"
-                    ],
-                    "files_init": "filelist/init_edge.txt"
-                },
-                "EXPLORER_A0": {
-                    "components": [
-                        "connectivity_components"
-                    ],
-                    "defines": [
-                        "hal_defines",
-                        "connectivity_defines"
-                    ],
-                    "deps": "cat1d_dependencies",
-                    "files": [
-                        "filelist/cat1d.txt",
-                        "filelist/pse84.txt"
-                    ],
-                    "files_init": "filelist/init_edge.txt"
+                    "20829": {
+                        "components": "cat1b_components",
+                        "defines": [
+                            "hal_defines",
+                            "cat1b_defines",
+                            "connectivity_defines"
+                        ],
+                        "deps": [
+                            "cat1b_dependencies",
+                            "20829_dependencies"
+                        ],
+                        "files": [
+                            "filelist/cat1b.txt",
+                            "filelist/cyw20829.txt"
+                        ],
+                        "files_init": "filelist/init_cyw20829.txt"
+                    },
+                    "89829": {
+                        "components": "cat1b_components",
+                        "defines": [
+                            "hal_defines",
+                            "cat1b_defines",
+                            "connectivity_defines"
+                        ],
+                        "deps": [
+                            "cat1b_dependencies",
+                            "89829_dependencies"
+                        ],
+                        "files": [
+                            "filelist/cat1b.txt",
+                            "filelist/cyw20829.txt"
+                        ],
+                        "files_init": "filelist/init_cyw20829.txt"
+                    },
+                    "udd_key": "DeviceSeries"
                 },
                 "FX3G2": {
                     "components": "cat1a_components",
@@ -1138,9 +1131,10 @@
                             "connectivity_components"
                         ],
                         "defines": [
+                            "hal_defines",
                             "connectivity_defines"
                         ],
-                        "deps": "cat1c_dependencies_no_hal",
+                        "deps": "cat1c_dependencies",
                         "files": [
                             "filelist/cat1c.txt",
                             "filelist/cyt4dn6336.txt"
@@ -1154,9 +1148,10 @@
                             "connectivity_components"
                         ],
                         "defines": [
+                            "hal_defines",
                             "connectivity_defines"
                         ],
-                        "deps": "cat1c_dependencies_no_hal",
+                        "deps": "cat1c_dependencies",
                         "files": [
                             "filelist/cat1c.txt",
                             "filelist/cyt4dn6336.txt"
@@ -1473,6 +1468,12 @@
                 ]
             },
             "dependency_sets": {
+                "20829_dependencies": [
+                    "deps/cat1b/fw-cyw20829b0.mtbx"
+                ],
+                "89829_dependencies": [
+                    "deps/cat1b/fw-cyw89829b0.mtbx"
+                ],
                 "cat1a_dependencies": [
                     "deps/cat1a/core-lib.mtbx",
                     "deps/cat1a/core-make.mtbx",
@@ -1526,13 +1527,6 @@
                     "deps/cat1c/cat1cm0p.mtbx",
                     "deps/cat1c/mtb-pdl-cat1.mtbx",
                     "deps/cat1c/recipe-make-cat1c.mtbx"
-                ],
-                "cat1d_dependencies": [
-                    "deps/cat1d/core-lib.mtbx",
-                    "deps/cat1d/core-make.mtbx",
-                    "deps/cat1d/mtb-hal-cat1.mtbx",
-                    "deps/cat1d/mtb-pdl-cat1.mtbx",
-                    "deps/cat1d/recipe-make-cat1d.mtbx"
                 ]
             }
         }

@@ -11,7 +11,7 @@
 #define SRAM_BASE_ADDRESS               CY_SRAM_BASE  /* SRAM START */
 #define TOTAL_RAM                       CY_SRAM_SIZE
 #define CM0PLUS_SRAM_RESERVE            0x00004000  /* 16K cm0plus */
-#define CM7_SRAM_NON_CACHE_RESERVE      0x00008000  /* 32K  :non-cacheable sram size */
+#define CM7_SRAM_NON_CACHE_RESERVE      0x00020000  /* 128K  :non-cacheable sram size */
 
 /* FLASH */
 #define CODE_FLASH_BASE_ADDRESS         CY_FLASH_LG_SBM_BASE  /* FLASH START */
