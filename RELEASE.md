@@ -1,6 +1,8 @@
 # ModusToolbox CAT1 BSP Template Library Release Notes
 
 ### What Changed?
+#### v1.7.2
+* Fix MTB-HAL dependency for Traveo II C-2D-6M devices.
 #### v1.7.1
 * Fix compilation error in cybsp_init when HAL is not present for CAT1A/CAT1C devices.
 #### v1.7.0
