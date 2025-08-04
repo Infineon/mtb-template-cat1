@@ -1,6 +1,8 @@
 # ModusToolbox CAT1 BSP Template Library Release Notes
 
 ### What Changed?
+#### v1.7.3
+* Bugfix for CM0+ startup code to remove GCC14 warning.
 #### v1.7.2
 * Fix MTB-HAL dependency for Traveo II C-2D-6M devices.
 #### v1.7.1
@@ -67,4 +69,4 @@ Minimum required ModusToolbox™ Software Environment: v3.0.0
 * [ModusToolbox™](https://www.cypress.com/products/modustoolbox-software-environment)
 
 ---
-© Cypress Semiconductor Corporation (an Infineon company) or an affiliate of Cypress Semiconductor Corporation, 2022-2023.
+© Cypress Semiconductor Corporation (an Infineon company) or an affiliate of Cypress Semiconductor Corporation, 2022-2025.
