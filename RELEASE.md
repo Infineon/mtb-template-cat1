@@ -1,6 +1,8 @@
 # ModusToolbox CAT1 BSP Template Library Release Notes
 
 ### What Changed?
+#### v1.7.4
+* Bugfix for CM7 startup code to remove ARM compiler error.
 #### v1.7.3
 * Bugfix for CM0+ startup code to remove GCC14 warning.
 #### v1.7.2
