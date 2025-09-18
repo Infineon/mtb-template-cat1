@@ -1,6 +1,8 @@
 # ModusToolbox CAT1 BSP Template Library Release Notes
 
 ### What Changed?
+#### v1.7.5
+* Fixed an issue related to timeout error during erase flash operation on XMC7x00.
 #### v1.7.4
 * Bugfix for CM7 startup code to remove ARM compiler error.
 #### v1.7.3
@@ -57,10 +59,10 @@ This version of mtb-template-cat1 was validated for compatibility with the follo
 
 | Software and Tools                        | Version |
 | :---                                      | :----:  |
-| ModusToolbox™ Software Environment        | 3.1.0   |
+| ModusToolbox™ Software Environment        | 3.5.0   |
 | GCC Compiler                              | 12.2.1  |
-| IAR Compiler                              | 9.40.2  |
-| ARM Compiler                              | 6.16    |
+| IAR Compiler                              | 9.50.2  |
+| ARM Compiler                              | 6.22    |
 
 Minimum required ModusToolbox™ Software Environment: v3.0.0
 
