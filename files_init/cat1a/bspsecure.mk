@@ -3,8 +3,8 @@
 #
 ################################################################################
 # \copyright
-# Copyright 2018-2023 Cypress Semiconductor Corporation (an Infineon company) or
-# an affiliate of Cypress Semiconductor Corporation
+# Copyright (c) 2018-2026 Infineon Technologies AG
+# an affiliate of Infineon Technologies AG
 #
 # SPDX-License-Identifier: Apache-2.0
 #

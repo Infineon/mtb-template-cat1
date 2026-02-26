@@ -29,6 +29,8 @@
 /* CM7_0 FLASH */
 #if (TOTAL_FLASH == 0x630000) /** 6M device */
     #define CM7_0_CODE_FLASH_RESERVE    0x00200000      /* 2MB CM7_0 flash size. */
+#elif (TOTAL_FLASH == 0x410000 ) /** 4M device */
+    #define CM7_0_CODE_FLASH_RESERVE    (TOTAL_FLASH - SIZE_CODE_FLASH_CM0P)      /* 4M device has no option for M7_1 */
 #else
     #error "Invalid device"
 #endif

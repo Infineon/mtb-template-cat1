@@ -1,12 +1,13 @@
 /***************************************************************************//**
 * \file system_cat1c.h
-* \version 1.2
+* \version 1.3
 *
 * \brief Device system header file.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2021-2025 Cypress Semiconductor Corporation
+* (c) 2021-2026, Infineon Technologies AG or an affiliate of
+* Infineon Technologies AG.
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -350,6 +351,11 @@
 *       <th>Reason for Change</th>
 *   </tr>
 *   <tr>
+*       <td>1.3</td>
+*       <td>New device support added for TRAVEO T2G CYT3DL.</td>
+*       <td>New device support.</td>
+*   </tr>
+*   <tr>
 *       <td>1.2</td>
 *       <td>Fixed warning for the GCC 14 compiler.</td>
 *       <td>Code improvements.</td>
@@ -385,7 +391,7 @@ extern "C" {
 * Include files
 *******************************************************************************/
 #include <stdint.h>
-#if defined (CY_DEVICE_TVIIC2D6M)
+#if defined (CY_DEVICE_TVIIC2D6M) || defined (CY_DEVICE_TVIIC2D4M)
 #include "tviic_partition.h"
 #else
 #include "xmc7xxx_partition.h"

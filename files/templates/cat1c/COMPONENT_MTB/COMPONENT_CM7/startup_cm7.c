@@ -6,7 +6,8 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2021 Cypress Semiconductor Corporation
+* (c) 2021-2026, Infineon Technologies AG or an affiliate of
+* Infineon Technologies AG.
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -366,7 +367,7 @@ int __low_level_init(void)
 /**/
 #endif /* defined(__GNUC__) && !defined(__ARMCC_VERSION) */
 
-#if !defined(CY_DEVICE_TVIIC2D6M)
+#if !defined(CY_DEVICE_TVIIC2D6M) && !(defined(CY_DEVICE_TVIIC2D4M))
 #ifdef ENABLE_CM7_DATA_CACHE
 static void config_noncacheable_region(void)
 {
@@ -389,7 +390,7 @@ void Reset_Handler(void)
 {
     /* disable global interrupt */
     __disable_irq();
-#if !defined(CY_DEVICE_TVIIC2D6M)
+#if !defined(CY_DEVICE_TVIIC2D6M) && !(defined(CY_DEVICE_TVIIC2D4M))
 #ifdef ENABLE_CM7_DATA_CACHE
     config_noncacheable_region();
 #endif /* ENABLE_CM7_DATA_CACHE */

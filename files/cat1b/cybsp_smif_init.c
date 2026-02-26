@@ -6,8 +6,8 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2022 Cypress Semiconductor Corporation (an Infineon company) or
-* an affiliate of Cypress Semiconductor Corporation
+* (c) 2018-2026, Infineon Technologies AG or an affiliate of
+* Infineon Technologies AG.
 *
 * SPDX-License-Identifier: Apache-2.0
 *
@@ -50,7 +50,7 @@ static uint32_t SMIF_IP_CRYPTO_INPUT3;
 *
 *******************************************************************************/
 CY_RAMFUNC_BEGIN
-void cybsp_smif_disable()
+void cybsp_smif_disable(void)
 {
     // to minimize DeepSleep latency this code assumes that all of the SMIF pins are on the same
     // port
@@ -91,7 +91,7 @@ CY_RAMFUNC_END
 *
 *******************************************************************************/
 CY_RAMFUNC_BEGIN
-void cybsp_smif_enable()
+void cybsp_smif_enable(void)
 {
     int port_number= CYHAL_GET_PORT(CYBSP_QSPI_SS);
     SMIF0->CTL = SMIF0->CTL | SMIF_CTL_ENABLED_Msk;

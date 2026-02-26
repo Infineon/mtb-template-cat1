@@ -6,8 +6,8 @@
  *
  ***************************************************************************************************
  * \copyright
- * Copyright 2018-2022 Cypress Semiconductor Corporation (an Infineon company) or
- * an affiliate of Cypress Semiconductor Corporation
+ * (c) 2018-2026, Infineon Technologies AG or an affiliate of
+ * Infineon Technologies AG.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -58,12 +58,12 @@ cy_en_smif_status_t cybsp_is_memory_ready(cy_stc_smif_mem_config_t const* memCon
  * \brief Disables the SMIF IO.
  *
  */
-void cybsp_smif_disable();
+void cybsp_smif_disable(void);
 
 /**
  * \brief Enables the SMIF IO.
  *
  */
-void cybsp_smif_enable();
+void cybsp_smif_enable(void);
 
 #endif /*CYBSP_SMIF_INIT_H*/
