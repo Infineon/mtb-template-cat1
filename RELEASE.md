@@ -1,6 +1,8 @@
 # ModusToolbox CAT1 BSP Template Library Release Notes
 
 ### What Changed?
+#### v1.8.1
+* Updated linker script paths for TRAVEO&trade; T2G CYT3DL and TRAVEO&trade; T2G CYT4DN devices.
 #### v1.8.0
 * Production support for TRAVEO&trade; T2G CYT3DL devices.
 * Add support for HAL interface version 3 on TRAVEO&trade; T2G CYT3DL devices.
