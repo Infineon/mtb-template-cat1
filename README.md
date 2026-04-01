@@ -8,6 +8,7 @@ mtb-template-cat1 provides BSP template files for the BSP Assistant tool. mtb-te
 * CYB06xxx
 * CYS06xxx
 * CYT2Bxx
+* XMC5xxx
 * XMC71xx
 * XMC72xx
 * CYT4DNx
@@ -34,10 +35,10 @@ Defines:
 
 
 ## More information
-* [Development Board Documentation](https://www.cypress.com/documentation/development-kitsboards)
-* [Cypress Semiconductor, an Infineon Technologies Company](https://www.cypress.com)
+* [Development Board Documentation](https://www.infineon.com/design-resources/finder-selection-tools/evaluation-board)
+* [Infineon](http://www.infineon.com)
 * [Infineon GitHub](https://github.com/infineon)
-* [ModusToolbox&trade;](https://www.cypress.com/products/modustoolbox-software-environment)
+* [ModusToolbox Software Environment, Quick Start Guide, Documentation, and Videos](https://www.infineon.com/cms/en/design-support/tools/sdk/modustoolbox-software/)
 
 ---
 © Infineon Technologies AG or an affiliate of Infineon Technologies AG, 2022-2026.

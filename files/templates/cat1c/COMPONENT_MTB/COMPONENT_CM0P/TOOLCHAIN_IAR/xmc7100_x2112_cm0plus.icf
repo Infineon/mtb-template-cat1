@@ -35,7 +35,6 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 *******************************************************************************/
-define symbol RAMVECTORS_ALIGNMENT              = 128;
 
 define symbol sram_start_reserve                = 0;
 define symbol sram_private_for_srom             = 0x00000800; /* Private SRAM for SROM (e.g. API processing). Reserved at the beginning */

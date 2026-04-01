@@ -1,8 +1,8 @@
 # ModusToolbox CAT1 BSP Template Library Release Notes
 
 ### What Changed?
-#### v1.8.1
-* Updated linker script paths for TRAVEO&trade; T2G CYT3DL and TRAVEO&trade; T2G CYT4DN devices.
+#### v1.9.0
+* Add support for XMC5000 devices.
 #### v1.8.0
 * Production support for TRAVEO&trade; T2G CYT3DL devices.
 * Add support for HAL interface version 3 on TRAVEO&trade; T2G CYT3DL devices.
@@ -74,10 +74,10 @@ This version of mtb-template-cat1 was validated for compatibility with the follo
 Minimum required ModusToolbox&trade; Software Environment: v3.0.0
 
 ### More information
-* [Development Board Documentation](https://www.cypress.com/documentation/development-kitsboards)
-* [Cypress Semiconductor, an Infineon Technologies Company](https://www.cypress.com)
+* [Development Board Documentation](https://www.infineon.com/design-resources/finder-selection-tools/evaluation-board)
+* [Infineon](http://www.infineon.com)
 * [Infineon GitHub](https://github.com/infineon)
-* [ModusToolbox&trade;](https://www.cypress.com/products/modustoolbox-software-environment)
+* [ModusToolbox&trade;](https://www.infineon.com/cms/en/design-support/tools/sdk/modustoolbox-software/)
 
 ---
 © Infineon Technologies AG or an affiliate of Infineon Technologies AG, 2022-2026.
