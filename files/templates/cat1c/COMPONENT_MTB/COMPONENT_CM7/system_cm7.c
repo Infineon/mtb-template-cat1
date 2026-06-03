@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file system_cm7.c
-* \version 1.2
+* \version 1.3
 *
 * The device system-source file.
 *
@@ -231,6 +231,22 @@ void CM7_CpuIntr_Handler(uint8_t intrNum)
     if((_FLD2VAL(CPUSS_CM7_1_INT_STATUS_SYSTEM_INT_VALID, CPUSS_CM7_1_INT_STATUS[intrNum])))
     {
         system_int_idx = _FLD2VAL(CPUSS_CM7_1_INT_STATUS_SYSTEM_INT_IDX, CPUSS_CM7_1_INT_STATUS[intrNum]);
+        handler = Cy_SystemIrqUserTable[system_int_idx];
+        handler(); // jump to system interrupt handler
+    }
+#endif
+#ifdef CORE_NAME_CM7_2
+    if((_FLD2VAL(CPUSS_CM7_2_INT_STATUS_SYSTEM_INT_VALID, CPUSS_CM7_2_INT_STATUS[intrNum])))
+    {
+        system_int_idx = _FLD2VAL(CPUSS_CM7_2_INT_STATUS_SYSTEM_INT_IDX, CPUSS_CM7_2_INT_STATUS[intrNum]);
+        handler = Cy_SystemIrqUserTable[system_int_idx];
+        handler(); // jump to system interrupt handler
+    }
+#endif
+#ifdef CORE_NAME_CM7_3
+    if((_FLD2VAL(CPUSS_CM7_3_INT_STATUS_SYSTEM_INT_VALID, CPUSS_CM7_3_INT_STATUS[intrNum])))
+    {
+        system_int_idx = _FLD2VAL(CPUSS_CM7_3_INT_STATUS_SYSTEM_INT_IDX, CPUSS_CM7_3_INT_STATUS[intrNum]);
         handler = Cy_SystemIrqUserTable[system_int_idx];
         handler(); // jump to system interrupt handler
     }

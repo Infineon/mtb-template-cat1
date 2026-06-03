@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file system_cm0plus.c
-* \version 1.2
+* \version 1.3
 *
 * The device system-source file.
 *
@@ -402,6 +402,18 @@ uint32_t Cy_SysGetCM7Status(uint8_t core)
         /* Get current power mode */
         regValue = _FLD2VAL(CPUSS_CM7_1_PWR_CTL_PWR_MODE, CPUSS->CM7_1_PWR_CTL);
     }
+#if (CY_IP_M7CPUSS_VERSION == 2)
+    else if(core == CORE_CM7_2)
+    {
+        /* Get current power mode */
+        regValue = _FLD2VAL(CPUSS_CM7_2_PWR_CTL_PWR_MODE, CPUSS->CM7_2_PWR_CTL);
+    }
+    else if(core == CORE_CM7_3)
+    {
+        /* Get current power mode */
+        regValue = _FLD2VAL(CPUSS_CM7_3_PWR_CTL_PWR_MODE, CPUSS->CM7_3_PWR_CTL);
+    }
+#endif
     else
     {
         /* */
@@ -469,6 +481,44 @@ void Cy_SysEnableCM7(uint8_t core, uint32_t vectorTableOffset)
 
         CPUSS->CM7_1_CTL &= ~(0x1 << CPUSS_CM7_1_CTL_CPU_WAIT_Pos);
     }
+#if (CY_IP_M7CPUSS_VERSION == 2)
+    else if(core == CORE_CM7_2)
+    {
+        /* Adjust the vector address */
+        CPUSS->CM7_2_VECTOR_TABLE_BASE = vectorTableOffset;
+
+        /* Enable the Power Control Key */
+        regValue = CPUSS->CM7_2_PWR_CTL & ~(CPUSS_CM7_2_PWR_CTL_VECTKEYSTAT_Msk | CPUSS_CM7_2_PWR_CTL_PWR_MODE_Msk);
+        regValue |= _VAL2FLD(CPUSS_CM7_2_PWR_CTL_VECTKEYSTAT, CY_SYS_CM7_PWR_CTL_KEY_OPEN);
+        regValue |= CY_SYS_CM7_STATUS_ENABLED;
+        CPUSS->CM7_2_PWR_CTL = regValue;
+
+        while((CPUSS->CM7_2_STATUS & CPUSS_CM7_2_STATUS_PWR_DONE_Msk) == 0UL)
+        {
+            /* Wait for the power mode to take effect */
+        }
+
+        CPUSS->CM7_2_CTL &= ~(0x1 << CPUSS_CM7_2_CTL_CPU_WAIT_Pos);
+    }
+    else if(core == CORE_CM7_3)
+    {
+        /* Adjust the vector address */
+        CPUSS->CM7_3_VECTOR_TABLE_BASE = vectorTableOffset;
+
+        /* Enable the Power Control Key */
+        regValue = CPUSS->CM7_3_PWR_CTL & ~(CPUSS_CM7_3_PWR_CTL_VECTKEYSTAT_Msk | CPUSS_CM7_3_PWR_CTL_PWR_MODE_Msk);
+        regValue |= _VAL2FLD(CPUSS_CM7_3_PWR_CTL_VECTKEYSTAT, CY_SYS_CM7_PWR_CTL_KEY_OPEN);
+        regValue |= CY_SYS_CM7_STATUS_ENABLED;
+        CPUSS->CM7_3_PWR_CTL = regValue;
+
+        while((CPUSS->CM7_3_STATUS & CPUSS_CM7_3_STATUS_PWR_DONE_Msk) == 0UL)
+        {
+            /* Wait for the power mode to take effect */
+        }
+
+        CPUSS->CM7_3_CTL &= ~(0x1 << CPUSS_CM7_3_CTL_CPU_WAIT_Pos);
+    }
+#endif
 
     Cy_RestoreIRQ(interruptState);
 
@@ -501,11 +551,37 @@ void Cy_SysDisableCM7(uint8_t core)
         regValue |= CY_SYS_CM7_STATUS_DISABLED;
         CPUSS->CM7_1_PWR_CTL = regValue;
 
-        while((CPUSS->CM7_1_STATUS & CPUSS_CM7_0_STATUS_PWR_DONE_Msk) == 0UL)
+        while((CPUSS->CM7_1_STATUS & CPUSS_CM7_1_STATUS_PWR_DONE_Msk) == 0UL)
         {
             /* Wait for the power mode to take effect */
         }
     }
+#if (CY_IP_M7CPUSS_VERSION == 2)
+    else if(core == CORE_CM7_2)
+    {
+        regValue = CPUSS->CM7_2_PWR_CTL & ~(CPUSS_CM7_2_PWR_CTL_VECTKEYSTAT_Msk | CPUSS_CM7_2_PWR_CTL_PWR_MODE_Msk);
+        regValue |= _VAL2FLD(CPUSS_CM7_2_PWR_CTL_VECTKEYSTAT, CY_SYS_CM7_PWR_CTL_KEY_OPEN);
+        regValue |= CY_SYS_CM7_STATUS_DISABLED;
+        CPUSS->CM7_2_PWR_CTL = regValue;
+
+        while((CPUSS->CM7_2_STATUS & CPUSS_CM7_2_STATUS_PWR_DONE_Msk) == 0UL)
+        {
+            /* Wait for the power mode to take effect */
+        }
+    }
+    else if(core == CORE_CM7_3)
+    {
+        regValue = CPUSS->CM7_3_PWR_CTL & ~(CPUSS_CM7_3_PWR_CTL_VECTKEYSTAT_Msk | CPUSS_CM7_3_PWR_CTL_PWR_MODE_Msk);
+        regValue |= _VAL2FLD(CPUSS_CM7_3_PWR_CTL_VECTKEYSTAT, CY_SYS_CM7_PWR_CTL_KEY_OPEN);
+        regValue |= CY_SYS_CM7_STATUS_DISABLED;
+        CPUSS->CM7_3_PWR_CTL = regValue;
+
+        while((CPUSS->CM7_3_STATUS & CPUSS_CM7_3_STATUS_PWR_DONE_Msk) == 0UL)
+        {
+            /* Wait for the power mode to take effect */
+        }
+    }
+#endif
 }
 
 
@@ -534,6 +610,22 @@ void Cy_SysRetainCM7(uint8_t core)
             regValue |= CY_SYS_CM7_STATUS_RETAINED;
             CPUSS->CM7_1_PWR_CTL = regValue;
         }
+#if (CY_IP_M7CPUSS_VERSION == 2)
+        else if(core == CORE_CM7_2)
+        {
+            regValue = CPUSS->CM7_2_PWR_CTL & ~(CPUSS_CM7_2_PWR_CTL_VECTKEYSTAT_Msk | CPUSS_CM7_2_PWR_CTL_PWR_MODE_Msk);
+            regValue |= _VAL2FLD(CPUSS_CM7_2_PWR_CTL_VECTKEYSTAT, CY_SYS_CM7_PWR_CTL_KEY_OPEN);
+            regValue |= CY_SYS_CM7_STATUS_RETAINED;
+            CPUSS->CM7_2_PWR_CTL = regValue;
+        }
+        else if(core == CORE_CM7_3)
+        {
+            regValue = CPUSS->CM7_3_PWR_CTL & ~(CPUSS_CM7_3_PWR_CTL_VECTKEYSTAT_Msk | CPUSS_CM7_3_PWR_CTL_PWR_MODE_Msk);
+            regValue |= _VAL2FLD(CPUSS_CM7_3_PWR_CTL_VECTKEYSTAT, CY_SYS_CM7_PWR_CTL_KEY_OPEN);
+            regValue |= CY_SYS_CM7_STATUS_RETAINED;
+            CPUSS->CM7_3_PWR_CTL = regValue;
+        }
+#endif
     }
 
     Cy_RestoreIRQ(interruptState);
@@ -548,6 +640,7 @@ void Cy_SysResetCM7(uint8_t core)
 
     if(core == CORE_CM7_0)
     {
+        CPUSS->CM7_0_CTL |= (0x1 << CPUSS_CM7_0_CTL_CPU_WAIT_Pos);
         regValue = CPUSS->CM7_0_PWR_CTL & ~(CPUSS_CM7_0_PWR_CTL_VECTKEYSTAT_Msk | CPUSS_CM7_0_PWR_CTL_PWR_MODE_Msk);
         regValue |= _VAL2FLD(CPUSS_CM7_0_PWR_CTL_VECTKEYSTAT, CY_SYS_CM7_PWR_CTL_KEY_OPEN);
         regValue |= CY_SYS_CM7_STATUS_RESET;
@@ -560,6 +653,7 @@ void Cy_SysResetCM7(uint8_t core)
     }
     else if(core == CORE_CM7_1)
     {
+        CPUSS->CM7_1_CTL |= (0x1 << CPUSS_CM7_1_CTL_CPU_WAIT_Pos);
         regValue = CPUSS->CM7_1_PWR_CTL & ~(CPUSS_CM7_1_PWR_CTL_VECTKEYSTAT_Msk | CPUSS_CM7_1_PWR_CTL_PWR_MODE_Msk);
         regValue |= _VAL2FLD(CPUSS_CM7_1_PWR_CTL_VECTKEYSTAT, CY_SYS_CM7_PWR_CTL_KEY_OPEN);
         regValue |= CY_SYS_CM7_STATUS_RESET;
@@ -570,6 +664,34 @@ void Cy_SysResetCM7(uint8_t core)
             /* Wait for the power mode to take effect */
         }
     }
+#if (CY_IP_M7CPUSS_VERSION == 2)
+    else if(core == CORE_CM7_2)
+    {
+        CPUSS->CM7_2_CTL |= (0x1 << CPUSS_CM7_2_CTL_CPU_WAIT_Pos);
+        regValue = CPUSS->CM7_2_PWR_CTL & ~(CPUSS_CM7_2_PWR_CTL_VECTKEYSTAT_Msk | CPUSS_CM7_2_PWR_CTL_PWR_MODE_Msk);
+        regValue |= _VAL2FLD(CPUSS_CM7_2_PWR_CTL_VECTKEYSTAT, CY_SYS_CM7_PWR_CTL_KEY_OPEN);
+        regValue |= CY_SYS_CM7_STATUS_RESET;
+        CPUSS->CM7_2_PWR_CTL = regValue;
+
+        while((CPUSS->CM7_2_STATUS & CPUSS_CM7_2_STATUS_PWR_DONE_Msk) == 0UL)
+        {
+            /* Wait for the power mode to take effect */
+        }
+    }
+    else if(core == CORE_CM7_3)
+    {
+        CPUSS->CM7_3_CTL |= (0x1 << CPUSS_CM7_3_CTL_CPU_WAIT_Pos);
+        regValue = CPUSS->CM7_3_PWR_CTL & ~(CPUSS_CM7_3_PWR_CTL_VECTKEYSTAT_Msk | CPUSS_CM7_3_PWR_CTL_PWR_MODE_Msk);
+        regValue |= _VAL2FLD(CPUSS_CM7_3_PWR_CTL_VECTKEYSTAT, CY_SYS_CM7_PWR_CTL_KEY_OPEN);
+        regValue |= CY_SYS_CM7_STATUS_RESET;
+        CPUSS->CM7_3_PWR_CTL = regValue;
+
+        while((CPUSS->CM7_3_STATUS & CPUSS_CM7_3_STATUS_PWR_DONE_Msk) == 0UL)
+        {
+            /* Wait for the power mode to take effect */
+        }
+    }
+#endif
 }
 
 

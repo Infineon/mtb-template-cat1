@@ -391,7 +391,7 @@
                 <Personality template="slowclk" version="2.0" instance="IF-G81RhO1w">
                     <Block location="srss[0].clock[0].slowclk[0]" locked="true"/>
                     <Parameters>
-                        <Param id="divider" value="1"/>
+                        <Param id="divider" value="2"/>
                     </Parameters>
                 </Personality>
                 <Personality template="timerclk" version="3.0" instance="5-aSrAj3EWA">

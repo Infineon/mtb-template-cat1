@@ -398,7 +398,11 @@ void Reset_Handler(void)
 
     /* Allow write access to Vector Table Offset Register and ITCM/DTCM configuration register
      * (CPUSS_CM7_X_CTL.PPB_LOCK[3] and CPUSS_CM7_X_CTL.PPB_LOCK[1:0]) */
-#ifdef CORE_NAME_CM7_1
+#ifdef CORE_NAME_CM7_3
+    CPUSS->CM7_3_CTL &= ~(0xB);
+#elif CORE_NAME_CM7_2
+    CPUSS->CM7_2_CTL &= ~(0xB);
+#elif CORE_NAME_CM7_1
     CPUSS->CM7_1_CTL &= ~(0xB);
 #elif CORE_NAME_CM7_0
     CPUSS->CM7_0_CTL &= ~(0xB);
@@ -423,6 +427,16 @@ void Reset_Handler(void)
     CPUSS_CM7_1_CTL |= (0x2 << CPUSS_CM7_1_CTL_INIT_TCM_EN_Pos);
     CPUSS_CM7_1_CTL |= (0x1 << CPUSS_CM7_1_CTL_INIT_RMW_EN_Pos);
     CPUSS_CM7_1_CTL |= (0x2 << CPUSS_CM7_1_CTL_INIT_RMW_EN_Pos);
+#elif CORE_NAME_CM7_2
+    CPUSS_CM7_2_CTL |= (0x1 << CPUSS_CM7_2_CTL_INIT_TCM_EN_Pos);
+    CPUSS_CM7_2_CTL |= (0x2 << CPUSS_CM7_2_CTL_INIT_TCM_EN_Pos);
+    CPUSS_CM7_2_CTL |= (0x1 << CPUSS_CM7_2_CTL_INIT_RMW_EN_Pos);
+    CPUSS_CM7_2_CTL |= (0x2 << CPUSS_CM7_2_CTL_INIT_RMW_EN_Pos);
+#elif CORE_NAME_CM7_3
+    CPUSS_CM7_3_CTL |= (0x1 << CPUSS_CM7_3_CTL_INIT_TCM_EN_Pos);
+    CPUSS_CM7_3_CTL |= (0x2 << CPUSS_CM7_3_CTL_INIT_TCM_EN_Pos);
+    CPUSS_CM7_3_CTL |= (0x1 << CPUSS_CM7_3_CTL_INIT_RMW_EN_Pos);
+    CPUSS_CM7_3_CTL |= (0x2 << CPUSS_CM7_3_CTL_INIT_RMW_EN_Pos);
 #else
 /**/
 #endif

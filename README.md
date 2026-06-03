@@ -13,6 +13,7 @@ mtb-template-cat1 provides BSP template files for the BSP Assistant tool. mtb-te
 * XMC72xx
 * CYT4DNx
 * CYT3DLx
+* CYT6BJx
 
 ## BSP Configuration
 

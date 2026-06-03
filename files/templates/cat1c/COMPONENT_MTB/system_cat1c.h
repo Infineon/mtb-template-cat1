@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file system_cat1c.h
-* \version 1.3
+* \version 1.4
 *
 * \brief Device system header file.
 *
@@ -351,6 +351,11 @@
 *       <th>Reason for Change</th>
 *   </tr>
 *   <tr>
+*       <td>1.4</td>
+*       <td>New device support added for TRAVEO T2G CYT6BJ.</td>
+*       <td>New device support.</td>
+*   </tr>
+*   <tr>
 *       <td>1.3</td>
 *       <td>New device support added for TRAVEO T2G CYT3DL.</td>
 *       <td>New device support.</td>
@@ -393,6 +398,8 @@ extern "C" {
 #include <stdint.h>
 #if defined (CY_DEVICE_TVIIC2D6M) || defined (CY_DEVICE_TVIIC2D4M)
 #include "tviic_partition.h"
+#elif defined (CY_DEVICE_TVIIBH16M)
+#include "tviibh_partition.h"
 #else
 #include "xmc7xxx_partition.h"
 #endif
@@ -440,6 +447,16 @@ extern "C" {
     #define CY_CORTEX_M7_1_APPL_ADDR        BASE_CODE_FLASH_CM7_1
 #endif
 
+/**  Start address of the Cortex-M7_2 application */
+#ifndef CY_CORTEX_M7_2_APPL_ADDR
+    #define CY_CORTEX_M7_2_APPL_ADDR        BASE_CODE_FLASH_CM7_2
+#endif
+
+/**  Start address of the Cortex-M7_3 application */
+#ifndef CY_CORTEX_M7_3_APPL_ADDR
+    #define CY_CORTEX_M7_3_APPL_ADDR        BASE_CODE_FLASH_CM7_3
+#endif
+
 /** The Cortex-M7 core is enabled: power on, clock on, no isolate, no reset and no retain. */
 #define CY_SYS_CM7_STATUS_ENABLED   (3U)
 /** The Cortex-M7 core is disabled: power off, clock off, isolate, reset and no retain. */
@@ -455,8 +472,12 @@ extern "C" {
 #define CORE_CM7_0                  (0U)
 /** Cortex-M7 core 1 */
 #define CORE_CM7_1                  (1U)
-/** Error Selection */
-#define CORE_MAX                    (2U)
+/** Cortex-M7 core 2 */
+#define CORE_CM7_2                  (2U)
+/** Cortex-M7 core 3 */
+#define CORE_CM7_3                  (3U)
+/** Error Selection / number of cores */
+#define CORE_MAX                    (4U)
 
 /** Define start of the function placed to the ITCM area by the linker */
 #ifndef CY_SECTION_ITCM_BEGIN
@@ -493,7 +514,7 @@ extern void SystemCoreClockUpdate(void);
 *
 * Gets the Cortex-M7 core power mode.
 *
-* \param core Core type (CM7_0 or CM7_1).
+* \param core Core type (CM7_0, CM7_1, CM7_2 or CM7_3).
 *
 * \return \ref group_system_config_system_macro_cm7 \n
 * If 0: CY_SYS_CM7_STATUS_DISABLED \n
@@ -510,7 +531,7 @@ extern uint32_t Cy_SysGetCM7Status(uint8_t core);
 * Enables the Cortex-M7 core. The CPU is enabled once if it was in the disabled
 * or retained mode.
 *
-* \param core Core type (CM7_0 or CM7_1).
+* \param core Core type (CM7_0, CM7_1, CM7_2 or CM7_3).
 *
 * \param vectorTableOffset The offset of the vector table base address from
 * memory address 0x00000000. The offset should be multiple to 1024 bytes.
@@ -523,7 +544,7 @@ extern void Cy_SysEnableCM7(uint8_t core, uint32_t vectorTableOffset);
 *
 * Disables the Cortex-M7 core.
 *
-* \param core Core type (CM7_0 or CM7_1).
+* \param core Core type (CM7_0, CM7_1, CM7_2 or CM7_3).
 *
 * \warning Do not call the function while the Cortex-M7 is executing because
 * such a call may corrupt/abort a pending bus-transaction by the CPU and cause
@@ -540,7 +561,7 @@ extern void Cy_SysDisableCM7(uint8_t core);
 *
 * Retains the Cortex-M7 core.
 *
-* \param core Core type (CM7_0 or CM7_1).
+* \param core Core type (CM7_0, CM7_1, CM7_2 or CM7_3).
 *
 * \warning Do not call the function while the Cortex-M7 is executing because
 * such a call may corrupt/abort a pending bus-transaction by the CPU and cause
@@ -557,7 +578,7 @@ extern void Cy_SysRetainCM7(uint8_t core);
 *
 * Resets the Cortex-M7 core.
 *
-* \param core Core type (CM7_0 or CM7_1).
+* \param core Core type (CM7_0, CM7_1, CM7_2 or CM7_3).
 *
 * \warning Do not call the function while the Cortex-M7 is executing because
 * such a call may corrupt/abort a pending bus-transaction by the CPU and cause

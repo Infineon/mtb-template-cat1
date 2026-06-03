@@ -3,7 +3,7 @@
 #
 ################################################################################
 # \copyright
-# Copyright (c) 2025-2026 Infineon Technologies AG
+# Copyright (c) 2019-2026 Infineon Technologies AG
 # an affiliate of Infineon Technologies AG
 #
 # SPDX-License-Identifier: Apache-2.0
@@ -25,6 +25,7 @@ ifeq ($(WHICHFILE),true)
 $(info Processing $(lastword $(MAKEFILE_LIST)))
 endif
 
+BSP_LINKER_CORE=$(if $(strip $(filter CM0P_SLEEP,$(BSP_COMPONENTS))$(filter CM0P,$(MTB_RECIPE__CORE))),linker,linker_q)
 ifeq ($(TOOLCHAIN),GCC_ARM)
 	BSP_LINKER_SCRIPT_EXT:=ld
 else ifeq ($(TOOLCHAIN),ARM)
@@ -32,19 +33,13 @@ else ifeq ($(TOOLCHAIN),ARM)
 else ifeq ($(TOOLCHAIN),IAR)
 	BSP_LINKER_SCRIPT_EXT:=icf
 endif
-MTB_BSP__LINKER_SCRIPT:=$(MTB_TOOLS__TARGET_DIR)/TOOLCHAIN_$(TOOLCHAIN)/linker.$(BSP_LINKER_SCRIPT_EXT)
+MTB_BSP__LINKER_SCRIPT=$(MTB_TOOLS__TARGET_DIR)/COMPONENT_$(MTB_RECIPE__CORE)/TOOLCHAIN_$(TOOLCHAIN)/$(BSP_LINKER_CORE).$(BSP_LINKER_SCRIPT_EXT)
 $(info "Using linker $(MTB_BSP__LINKER_SCRIPT)")
 # Any additional components to apply when using this board.
 BSP_COMPONENTS:=
 
 # Any additional defines to apply when using this board.
 BSP_DEFINES:=
-
-# Middleware graphics support for CYT4DN devices requires single-precision
-# hardware floating point.  Changing to soft floating point or the precision
-# will cause compatibility issues with graphics.
-VFP_SELECT=hardfp
-VFP_SELECT_PRECISION=singlefp
 
 # Path to the flash loaders to patch for this board
 CY_QSPI_FLM_DIR=$(MTB_TOOLS__TARGET_DIR)/config/FlashLoaders/

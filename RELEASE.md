@@ -1,8 +1,12 @@
 # ModusToolbox CAT1 BSP Template Library Release Notes
 
 ### What Changed?
+#### v1.10.0
+* Production support for TRAVEO&trade; T2G CYT6BJ devices.
 #### v1.9.0
 * Add support for XMC5000 devices.
+#### v1.8.1
+* Updated linker script paths for TRAVEO&trade; T2G CYT3DL and TRAVEO&trade; T2G CYT4DN devices.
 #### v1.8.0
 * Production support for TRAVEO&trade; T2G CYT3DL devices.
 * Add support for HAL interface version 3 on TRAVEO&trade; T2G CYT3DL devices.
@@ -66,7 +70,7 @@ This version of mtb-template-cat1 was validated for compatibility with the follo
 
 | Software and Tools                        | Version |
 | :---                                      | :----:  |
-| ModusToolbox&trade; Software Environment  | 3.5.0   |
+| ModusToolbox&trade; Software Environment  | 3.7.0   |
 | GCC Compiler                              | 14.2.1  |
 | IAR Compiler                              | 9.50.2  |
 | ARM Compiler                              | 6.22    |
