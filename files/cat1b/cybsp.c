@@ -92,10 +92,12 @@ cy_rslt_t cybsp_init(void)
     }
 
     #if !defined(CYBSP_SKIP_PM_REGISTRATION)
+    #if !defined(CY_DISABLE_WARM_BOOT)
     if (CY_RSLT_SUCCESS == result)
     {
         result = cybsp_syspm_dsram_init();
     }
+    #endif /* !defined(CY_DISABLE_WARM_BOOT) */
 
     if (CY_RSLT_SUCCESS == result)
     {

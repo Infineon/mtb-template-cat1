@@ -47,14 +47,24 @@ CY_MISRA_FP_BLOCK_START('MISRA C-2012 Rule 8.6', 2, \
 * SystemCoreClockUpdate()
 *******************************************************************************/
 
-/** Default HFClk frequency in Hz */
-#define CY_CLK_HFCLK0_FREQ_HZ_DEFAULT       (48000000UL)
+/** Default HFClk frequency in Hz. This frequency is configured during boot
+ * initialization. Update this value with the exact frequency configured in the
+ * provisioning policy. The maximum possible value is used by default.
+ */
+#define CY_CLK_HFCLK0_FREQ_HZ_DEFAULT       (CY_HF_CLK_MAX_FREQ)
 
-/** Default PeriClk frequency in Hz */
-#define CY_CLK_PERICLK_FREQ_HZ_DEFAULT      (48000000UL)
+/** Default PeriClk frequency in Hz. This frequency is configured during boot
+ * initialization. Update this value with the exact frequency configured in the
+ * provisioning policy. The maximum possible value is used by default to ensure
+ * delays are not shorter than expected.
+ */
+#define CY_CLK_PERICLK_FREQ_HZ_DEFAULT      (CY_HF_CLK_MAX_FREQ)
 
-/** Default system core frequency in Hz */
-#define CY_CLK_SYSTEM_FREQ_HZ_DEFAULT       (48000000UL)
+/** Default system core frequency in Hz. This frequency is configured during boot
+ * initialization. Update this value with the exact frequency configured in the
+ * provisioning policy. The maximum possible value is used by default.
+ */
+#define CY_CLK_SYSTEM_FREQ_HZ_DEFAULT       (CY_HF_CLK_MAX_FREQ)
 
 /** Holds the CLK_HF0 system core clock. */
 uint32_t SystemCoreClock = CY_CLK_SYSTEM_FREQ_HZ_DEFAULT;
@@ -130,8 +140,6 @@ void SystemInit_CAT1B_CM33(void)
     /* Unlock and disable WDT */
     Cy_WDT_Unlock();
     Cy_WDT_Disable();
-
-    SystemCoreClockUpdate();
 }
 
 CY_SECTION_RAMFUNC_BEGIN
@@ -281,6 +289,38 @@ void SystemCoreClockUpdate (void)
 
     /* Get the frequency of AHB source, CLK HF0 is the source for AHB*/
     cy_AhbFreqHz = Cy_SysClk_ClkHfGetFrequency(0UL);
+}
+
+/*******************************************************************************
+* Function Name: SystemCoreClockSetup
+****************************************************************************//**
+*
+* Populates system clock frequency variables with the provided value.
+* Sets the clock frequencies of \ref SystemCoreClock, \ref cy_AhbFreqHz,
+* \ref cy_Hfclk0FreqHz and \ref cy_PeriClkFreqHz variables.
+*
+* \param systemCoreClk_freq_hz
+* Frequency in Hz for the System Core Clock
+*
+* \param ahb_freq_hz
+* Frequency in Hz of the AHB source
+*
+*******************************************************************************/
+void SystemCoreClockSetup(uint32_t systemCoreClk_freq_hz, uint32_t ahb_freq_hz)
+{
+    SystemCoreClock = systemCoreClk_freq_hz;
+
+    cy_Hfclk0FreqHz = systemCoreClk_freq_hz;
+
+    cy_PeriClkFreqHz = systemCoreClk_freq_hz;
+
+    /* Sets clock frequency for Delay API */
+    cy_delayFreqHz = SystemCoreClock;
+    cy_delayFreqMhz = (uint8_t)((cy_delayFreqHz + CY_DELAY_1M_MINUS_1_THRESHOLD) / CY_DELAY_1M_THRESHOLD);
+    cy_delayFreqKhz = (cy_delayFreqHz + CY_DELAY_1K_MINUS_1_THRESHOLD) / CY_DELAY_1K_THRESHOLD;
+
+    /* Get the frequency of AHB source, CLK HF0 is the source for AHB*/
+    cy_AhbFreqHz = ahb_freq_hz;
 }
 
 CY_MISRA_BLOCK_END('MISRA C-2012 Rule 8.6')

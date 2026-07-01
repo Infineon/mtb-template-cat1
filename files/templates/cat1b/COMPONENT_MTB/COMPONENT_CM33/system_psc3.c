@@ -38,14 +38,24 @@
 * SystemCoreClockUpdate()
 *******************************************************************************/
 
-/** Default HFClk frequency in Hz */
-#define CY_CLK_HFCLK0_FREQ_HZ_DEFAULT       (48000000UL)
+/** Default HFClk frequency in Hz. This frequency is configured during boot
+ * initialization. Update this value with the exact frequency configured in the
+ * provisioning policy. The maximum possible value is used by default.
+ */
+#define CY_CLK_HFCLK0_FREQ_HZ_DEFAULT       (CY_HF_CLK_MAX_FREQ)
 
-/** Default PeriClk frequency in Hz */
-#define CY_CLK_PERICLK_FREQ_HZ_DEFAULT      (48000000UL)
+/** Default PeriClk frequency in Hz. This frequency is configured during boot
+ * initialization. Update this value with the exact frequency configured in the
+ * provisioning policy. The maximum possible value is used by default to ensure
+ * delays are not shorter than expected.
+ */
+#define CY_CLK_PERICLK_FREQ_HZ_DEFAULT      (CY_HF_CLK_MAX_FREQ)
 
-/** Default system core frequency in Hz */
-#define CY_CLK_SYSTEM_FREQ_HZ_DEFAULT       (48000000UL)
+/** Default system core frequency in Hz. This frequency is configured during boot
+ * initialization. Update this value with the exact frequency configured in the
+ * provisioning policy. The maximum possible value is used by default.
+ */
+#define CY_CLK_SYSTEM_FREQ_HZ_DEFAULT       (CY_HF_CLK_MAX_FREQ)
 
 /** Holds the CLK_HF0 system core clock. */
 uint32_t SystemCoreClock = CY_CLK_SYSTEM_FREQ_HZ_DEFAULT;
@@ -119,7 +129,6 @@ void SystemInit_Enable_Peri(void)
         (void)Cy_SysClk_PeriGroupSetSlaveCtl(2, CY_SYSCLK_PERI_GROUP_SL_CTL, 0xFFFFFFFFU); /* typecast void to suppress a compiler warning about unused return value */
     }
 
-
     if(Cy_SysClk_PeriGroupGetSlaveCtl(3, CY_SYSCLK_PERI_GROUP_SL_CTL) != CY_PERI_GR3_SL_CTL)
     {
         (void)Cy_SysClk_PeriGroupSetSlaveCtl(3, CY_SYSCLK_PERI_GROUP_SL_CTL2, 0x0U); /* typecast void to suppress a compiler warning about unused return value */
@@ -139,6 +148,8 @@ void SystemInit_Enable_Peri(void)
     }
 }
 
+
+#if !defined(CY_DISABLE_WARM_BOOT)
 
 CY_SECTION_RAMFUNC_BEGIN
 /*******************************************************************************
@@ -235,6 +246,7 @@ void System_Restore_NVIC_Reg(void)
     SCB_SHPR3_REG = scbSHPR3StoreRestore;
 }
 CY_SECTION_RAMFUNC_END
+#endif /* !defined(CY_DISABLE_WARM_BOOT) */
 
 void SystemInit(void)
 {
@@ -246,8 +258,6 @@ void SystemInit(void)
 #endif /* CY_NOT_ENABLE_IP_IN_STARTUP */
 
     (void)Cy_SystemInit(); /* typecast void to suppress a compiler warning about unused return value */
-
-    SystemCoreClockUpdate();
 }
 
 /*******************************************************************************
@@ -299,6 +309,39 @@ void SystemCoreClockUpdate (void)
 
     /* Get the frequency of AHB source, CLK HF0 is the source for AHB*/
     cy_AhbFreqHz = Cy_SysClk_ClkHfGetFrequency(0UL);
+}
+
+
+/*******************************************************************************
+* Function Name: SystemCoreClockSetup
+****************************************************************************//**
+*
+* Populates system clock frequency variables with the provided value.
+* Sets the clock frequencies of \ref SystemCoreClock, \ref cy_AhbFreqHz,
+* \ref cy_Hfclk0FreqHz and \ref cy_PeriClkFreqHz variables.
+*
+* \param systemCoreClk_freq_hz
+* Frequency in Hz for the System Core Clock
+*
+* \param ahb_freq_hz
+* Frequency in Hz of the AHB source
+*
+*******************************************************************************/
+void SystemCoreClockSetup(uint32_t systemCoreClk_freq_hz, uint32_t ahb_freq_hz)
+{
+    SystemCoreClock = systemCoreClk_freq_hz;
+
+    cy_Hfclk0FreqHz = systemCoreClk_freq_hz;
+
+    cy_PeriClkFreqHz = systemCoreClk_freq_hz;
+
+    /* Sets clock frequency for Delay API */
+    cy_delayFreqHz = SystemCoreClock;
+    cy_delayFreqMhz = (uint8_t)((cy_delayFreqHz + CY_DELAY_1M_MINUS_1_THRESHOLD) / CY_DELAY_1M_THRESHOLD);
+    cy_delayFreqKhz = (cy_delayFreqHz + CY_DELAY_1K_MINUS_1_THRESHOLD) / CY_DELAY_1K_THRESHOLD;
+
+    /* Get the frequency of AHB source, CLK HF0 is the source for AHB*/
+    cy_AhbFreqHz = ahb_freq_hz;
 }
 
 #endif /* defined (CY_DEVICE_PSC3) */

@@ -46,7 +46,7 @@ extern "C" {
 #endif
 
 
-
+#if !defined(CY_DISABLE_WARM_BOOT)
 //--------------------------------------------------------------------------------------------------
 // cybsp_syspm_do_warmboot
 //--------------------------------------------------------------------------------------------------
@@ -98,6 +98,7 @@ __WEAK cy_rslt_t cybsp_syspm_dsram_init(void)
 
 
 #endif //#if !defined(CYBSP_SKIP_PM_REGISTRATION)
+#endif /* !defined(CY_DISABLE_WARM_BOOT) */
 
 #if defined(__cplusplus)
 }

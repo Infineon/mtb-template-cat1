@@ -205,7 +205,7 @@ void Interrupt9_Handler     (void) __attribute__ ((weak, alias("InterruptHandler
 #pragma GCC diagnostic ignored "-Wpedantic"
 #endif
 
-const cy_israddress __Vectors[VECTORTABLE_SIZE] __VECTOR_TABLE_ATTRIBUTE  = {
+const cy_israddress __Vectors[] __VECTOR_TABLE_ATTRIBUTE  = {
   (cy_israddress)(&__INITIAL_SP),                          /*     Initial Stack Pointer */
   (cy_israddress)Reset_Handler,                            /*     Reset Handler */
   (cy_israddress)NMIException_Handler,                     /* -14 NMI Handler */
@@ -302,9 +302,23 @@ __NO_RETURN void Reset_Handler (void)
     for (uint32_t count = 0; count < VECTORTABLE_SIZE; count++)
     {
         #if defined(CY_PDL_TZ_ENABLED)
-        __s_vector_table_rw[count] =__Vectors[count];
+        if (count < sizeof(__Vectors) / sizeof(__Vectors[0U]))
+        {
+            __s_vector_table_rw[count] = __Vectors[count];
+        }
+        else
+        {
+            __s_vector_table_rw[count] = NULL;
+        }
         #else
-        __ns_vector_table_rw[count] =__Vectors[count];
+        if (count < sizeof(__Vectors) / sizeof(__Vectors[0U]))
+        {
+            __ns_vector_table_rw[count] = __Vectors[count];
+        }
+        else
+        {
+            __ns_vector_table_rw[count] = NULL;
+        }
         #endif
     }
     #if defined(CY_PDL_TZ_ENABLED)

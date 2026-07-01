@@ -1,6 +1,9 @@
 # ModusToolbox CAT1 BSP Template Library Release Notes
 
 ### What Changed?
+#### v1.11.0
+* Added CY_DISABLE_WARM_BOOT option to disable warm-boot related code when this feature is not used for PSOC Control C3 and CYW20829 devices.
+* Added SystemCoreClockSetup() function for PSOC Control C3 and CYW20829 devices.
 #### v1.10.0
 * Production support for TRAVEO&trade; T2G CYT6BJ devices.
 #### v1.9.0

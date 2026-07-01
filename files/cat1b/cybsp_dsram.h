@@ -33,6 +33,8 @@
 extern "C" {
 #endif
 
+#if !defined(CY_DISABLE_WARM_BOOT)
+
 /**
  * \addtogroup group_bsp_dsram_functions Functions
  * \{
@@ -57,6 +59,8 @@ cy_rslt_t cybsp_syspm_dsram_init(void);
 extern cy_stc_syspm_warmboot_entrypoint_t syspmBspDeepSleepEntryPoint; ///< DS entry point
 
 /** \} group_bsp_dsram_functions */
+
+#endif /* !defined(CY_DISABLE_WARM_BOOT) */
 
 #ifdef __cplusplus
 }

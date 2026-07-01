@@ -144,6 +144,7 @@ CY_RAMFUNC_END
 // upon device transition to DeepsleepRam power mode and to wake up
 // external QSPI device from low power mode upon device wakeup
 
+#if !defined(CY_DISABLE_WARM_BOOT)
 CY_RAMFUNC_BEGIN
 cy_en_syspm_status_t cybsp_dsram_smif_power_up_callback(
     cy_stc_syspm_callback_params_t* callbackParams,
@@ -209,6 +210,7 @@ cy_en_syspm_status_t cybsp_dsram_smif_power_up_callback(
 
 
 CY_RAMFUNC_END
+#endif /* !defined(CY_DISABLE_WARM_BOOT) */
 
 //--------------------------------------------------------------------------------------------------
 // cybsp_hibernate_callback
@@ -345,6 +347,7 @@ cy_en_syspm_status_t cybsp_deepsleep_ram_rsc_alloc_callback(
 
 #endif // defined(CY_EXT_MEM_POWER_DOWN_SUPPORTED)
 
+#if !defined(CY_DISABLE_WARM_BOOT)
 //--------------------------------------------------------------------------------------------------
 // cybsp_deepsleep_ram_callback
 //--------------------------------------------------------------------------------------------------
@@ -381,6 +384,9 @@ cy_en_syspm_status_t cybsp_deepsleep_ram_callback(cy_stc_syspm_callback_params_t
 }
 
 
+#endif /* !defined(CY_DISABLE_WARM_BOOT) */
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////// BSP PM callbacks config structures ////////////////////////////////////
 
@@ -409,6 +415,7 @@ static cy_stc_syspm_callback_t        cybsp_smif_pu_callback       =
     .order          = CYBSP_EXT_MEMORY_PM_CALLBACK_ORDER
 };
 
+#if !defined(CY_DISABLE_WARM_BOOT)
 static cy_stc_syspm_callback_params_t cybsp_dsram_smif_pu_callback_param = { NULL, NULL };
 static cy_stc_syspm_callback_t        cybsp_dsram_smif_pu_callback       =
 {
@@ -417,6 +424,7 @@ static cy_stc_syspm_callback_t        cybsp_dsram_smif_pu_callback       =
     .callbackParams = &cybsp_dsram_smif_pu_callback_param,
     .order          = CYBSP_EXT_MEMORY_PM_CALLBACK_ORDER
 };
+#endif /* !defined(CY_DISABLE_WARM_BOOT) */
 
 static cy_stc_syspm_callback_params_t cybsp_hibernate_pm_callback_param = { NULL, NULL };
 static cy_stc_syspm_callback_t        cybsp_hibernate_pm_callback       =
@@ -427,6 +435,7 @@ static cy_stc_syspm_callback_t        cybsp_hibernate_pm_callback       =
     .order          = CYBSP_EXT_MEMORY_PM_CALLBACK_ORDER
 };
 
+#if !defined(CY_DISABLE_WARM_BOOT)
 static cy_stc_syspm_callback_params_t cybsp_ds_ram_rsc_alloc_callback_param = { NULL, NULL };
 static cy_stc_syspm_callback_t        cybsp_ds_ram_rsc_alloc_callback       =
 {
@@ -435,8 +444,10 @@ static cy_stc_syspm_callback_t        cybsp_ds_ram_rsc_alloc_callback       =
     .callbackParams = &cybsp_ds_ram_rsc_alloc_callback_param,
     .order          = CYBSP_HW_ALLOC_CALLBACK_ORDER
 };
+#endif /* !defined(CY_DISABLE_WARM_BOOT) */
 #endif // defined(CY_EXT_MEM_POWER_DOWN_SUPPORTED)
 
+#if !defined(CY_DISABLE_WARM_BOOT)
 static cy_stc_syspm_callback_params_t cybsp_ds_ram_pm_callback_param = { NULL, NULL };
 static cy_stc_syspm_callback_t        cybsp_ds_ram_pm_callback       =
 {
@@ -445,6 +456,7 @@ static cy_stc_syspm_callback_t        cybsp_ds_ram_pm_callback       =
     .callbackParams = &cybsp_ds_ram_pm_callback_param,
     .order          = 0u
 };
+#endif /* !defined(CY_DISABLE_WARM_BOOT) */
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////// BSP PM callbacks array ////////////////////////////////////////////////
@@ -456,11 +468,17 @@ cy_stc_syspm_callback_t* _cybsp_callbacks_array[] =
     #endif // if !defined(CYBSP_CUSTOM_SYSCLK_PM_CALLBACK)
     #if defined(CY_EXT_MEM_POWER_DOWN_SUPPORTED)
     &cybsp_smif_pu_callback,
+    #if !defined(CY_DISABLE_WARM_BOOT)
     &cybsp_dsram_smif_pu_callback,
+    #endif /* !defined(CY_DISABLE_WARM_BOOT) */
     &cybsp_hibernate_pm_callback,
+    #if !defined(CY_DISABLE_WARM_BOOT)
     &cybsp_ds_ram_rsc_alloc_callback,
+    #endif /* !defined(CY_DISABLE_WARM_BOOT) */
     #endif // defined(CY_EXT_MEM_POWER_DOWN_SUPPORTED)
+    #if !defined(CY_DISABLE_WARM_BOOT)
     &cybsp_ds_ram_pm_callback
+    #endif /* !defined(CY_DISABLE_WARM_BOOT) */
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

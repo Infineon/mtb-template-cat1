@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file system_cat1b.h
-* \version 1.2
+* \version 1.4
 *
 * \brief CAT1B Device system header file.
 *
@@ -228,6 +228,20 @@
 *       <th>Reason for Change</th>
 *   </tr>
 *   <tr>
+*       <td>1.4</td>
+*       <td>Updated PSC3 FLL maximum output frequency limit from 96 MHz to 100 MHz.</td>
+*       <td>Correctness update to align CAT1B SYSCLK limits with device specification.</td>
+*   </tr>
+*   <tr>
+*       <td rowspan="2">1.3</td>
+*       <td>Added memory-optimized function for System Clock Updates SystemCoreClockSetup()</td>
+*       <td>Memory footprint improvements</td>
+*   </tr>
+*   <tr>
+*       <td>Added CY_DISABLE_WARM_BOOT option to disable warm boot related code when this feature is not used</td>
+*       <td>Memory footprint improvements</td>
+*   </tr>
+*   <tr>
 *       <td>1.2</td>
 *       <td>Added new internal functions.</td>
 *       <td>Added support for DSRAM Setup for CAT1B devices.</td>
@@ -266,6 +280,13 @@ extern "C" {
 
 #define CY_SYSTEM_CPU_CM33                  1UL
 
+#define CY_SYSTEM_CORE_CLOCK_SETUP_AVAILABLE
+
+#if defined(CY_DISABLE_DEEP_SLEEP_RAM) && !defined(CY_DISABLE_WARM_BOOT)
+#error "Warm boot is enabled, but it requires DeepSleep-RAM, which is disabled. \
+        Either define 'CY_DISABLE_WARM_BOOT' or undefine 'CY_DISABLE_DEEP_SLEEP_RAM'"
+#endif
+
 /*******************************************************************************
 * Global preprocessor symbols/macros ('define')
 *******************************************************************************/
@@ -282,10 +303,13 @@ extern "C" {
 
 /** \cond */
 void SystemInit(void);
+#if !defined(CY_DISABLE_WARM_BOOT)
 void SystemInit_Warmboot_CAT1B_CM33(void);
 void System_Store_NVIC_Reg(void);
 void System_Restore_NVIC_Reg(void);
+#endif /* !defined(CY_DISABLE_WARM_BOOT) */
 extern void SystemCoreClockUpdate(void);
+extern void SystemCoreClockSetup(uint32_t systemCoreClk_freq_hz, uint32_t ahb_freq_hz);
 
 extern void    Cy_SystemInit(void);
 extern void    bootstrapInit(void);
