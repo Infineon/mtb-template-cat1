@@ -286,8 +286,10 @@ __NO_RETURN void Reset_Handler (void)
     /* Disable I cache */
     ICACHE0->CTL = ICACHE0->CTL & (~ICACHE_CTL_CA_EN_Msk);
 
+#if defined(ICACHE_ECC_PRESENT) && (ICACHE_ECC_PRESENT == 1u)
     /* Enable ECC */
-    //ICACHE0->CTL = ICACHE0->CTL | ICACHE_CTL_ECC_EN_Msk;
+    ICACHE0->CTL = ICACHE0->CTL | ICACHE_CTL_ECC_EN_Msk;
+#endif
 
     /* Enable I cache */
     ICACHE0->CTL = ICACHE0->CTL | ICACHE_CTL_CA_EN_Msk;

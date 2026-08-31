@@ -135,7 +135,7 @@ MEMORY
     sflash_toc_2        (rx)        : ORIGIN = _base_SFLASH_TOC2,           LENGTH = _size_SFLASH_TOC2          /* Supervisory flash: Table of Content # 2 */
     efuse               (rx)        : ORIGIN = _base_EFUSE,                 LENGTH = _size_EFUSE                /* 1MB */
     itcm                (rx)        : ORIGIN = _base_ITCM,                  LENGTH = _size_ITCM                 /* ITCM */
-    dtcm                (rx)        : ORIGIN = _base_DTCM,                  LENGTH = _base_DTCM                 /* DTCM */
+    dtcm                (rx)        : ORIGIN = _base_DTCM,                  LENGTH = _size_DTCM                 /* DTCM */
 }
 
 /* Library configurations */

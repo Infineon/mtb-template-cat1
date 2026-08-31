@@ -3,7 +3,7 @@
     <Devices>
         <Device mpn="CYT6BJ8DDE">
             <BlockConfig>
-                <Personality template="pin" version="3.0" instance="Wp0SghyD1dc">
+                <Personality template="pin" version="4.0" instance="ZwixyTpv_Vk">
                     <Block location="ioss[0].port[5].pin[0]" locked="true">
                         <Aliases>
                             <Alias value="USER_LED1"/>
@@ -23,7 +23,7 @@
                         <Param id="vtrip" value="CY_GPIO_VTRIP_CMOS"/>
                     </Parameters>
                 </Personality>
-                <Personality template="pin" version="3.0" instance="eYBcRGcZL90">
+                <Personality template="pin" version="4.0" instance="Vb5HAO1lFbE">
                     <Block location="ioss[0].port[6].pin[0]" locked="true"/>
                     <Parameters>
                         <Param id="DriveModes" value="CY_GPIO_DM_ANALOG"/>
@@ -39,14 +39,14 @@
                         <Param id="vtrip" value="CY_GPIO_VTRIP_CMOS"/>
                     </Parameters>
                 </Personality>
-                <Personality template="pin" version="3.0" instance="saznCOnTzYY">
+                <Personality template="pin" version="4.0" instance="tETO4mYfXJc">
                     <Block location="ioss[0].port[21].pin[0]" locked="true"/>
                     <Parameters>
                         <Param id="DriveModes" value="CY_GPIO_DM_ANALOG"/>
                         <Param id="driveStrength" value="CY_GPIO_DRIVE_1_2"/>
                         <Param id="driveStrengthTrim" value="CY_GPIO_DRIVE_STRENGTH_DEFAULT"/>
                         <Param id="inFlash" value="true"/>
-                        <Param id="initialState" value="1"/>
+                        <Param id="initialState" value="0"/>
                         <Param id="isrTrigger" value="CY_GPIO_INTR_DISABLE"/>
                         <Param id="nonSec" value="1"/>
                         <Param id="pullUpRes" value="CY_GPIO_PULLUP_RES_DISABLE"/>
@@ -55,14 +55,14 @@
                         <Param id="vtrip" value="CY_GPIO_VTRIP_CMOS"/>
                     </Parameters>
                 </Personality>
-                <Personality template="pin" version="3.0" instance="bhDKctHz-eQ">
+                <Personality template="pin" version="4.0" instance="zLQm1VjvjY0">
                     <Block location="ioss[0].port[21].pin[1]" locked="true"/>
                     <Parameters>
                         <Param id="DriveModes" value="CY_GPIO_DM_ANALOG"/>
                         <Param id="driveStrength" value="CY_GPIO_DRIVE_1_2"/>
                         <Param id="driveStrengthTrim" value="CY_GPIO_DRIVE_STRENGTH_DEFAULT"/>
                         <Param id="inFlash" value="true"/>
-                        <Param id="initialState" value="1"/>
+                        <Param id="initialState" value="0"/>
                         <Param id="isrTrigger" value="CY_GPIO_INTR_DISABLE"/>
                         <Param id="nonSec" value="1"/>
                         <Param id="pullUpRes" value="CY_GPIO_PULLUP_RES_DISABLE"/>
@@ -71,7 +71,7 @@
                         <Param id="vtrip" value="CY_GPIO_VTRIP_CMOS"/>
                     </Parameters>
                 </Personality>
-                <Personality template="pin" version="3.0" instance="wMvi50CuJ4k">
+                <Personality template="pin" version="4.0" instance="F65XLINs-VA">
                     <Block location="ioss[0].port[21].pin[2]" locked="true"/>
                     <Parameters>
                         <Param id="DriveModes" value="CY_GPIO_DM_ANALOG"/>
@@ -87,7 +87,7 @@
                         <Param id="vtrip" value="CY_GPIO_VTRIP_CMOS"/>
                     </Parameters>
                 </Personality>
-                <Personality template="pin" version="3.0" instance="lpBahHhGgI4">
+                <Personality template="pin" version="4.0" instance="6nsdWhWF9VM">
                     <Block location="ioss[0].port[21].pin[3]" locked="true"/>
                     <Parameters>
                         <Param id="DriveModes" value="CY_GPIO_DM_ANALOG"/>
@@ -103,14 +103,14 @@
                         <Param id="vtrip" value="CY_GPIO_VTRIP_CMOS"/>
                     </Parameters>
                 </Personality>
-                <Personality template="pin" version="3.0" instance="v3dNn42lizA">
+                <Personality template="pin" version="4.0" instance="JGEIFZPkxrU">
                     <Block location="ioss[0].port[23].pin[7]" locked="true"/>
                     <Parameters>
-                        <Param id="DriveModes" value="CY_GPIO_DM_ANALOG"/>
+                        <Param id="DriveModes" value="CY_GPIO_DM_HIGHZ"/>
                         <Param id="driveStrength" value="CY_GPIO_DRIVE_1_2"/>
                         <Param id="driveStrengthTrim" value="CY_GPIO_DRIVE_STRENGTH_DEFAULT"/>
                         <Param id="inFlash" value="true"/>
-                        <Param id="initialState" value="1"/>
+                        <Param id="initialState" value="0"/>
                         <Param id="isrTrigger" value="CY_GPIO_INTR_DISABLE"/>
                         <Param id="nonSec" value="1"/>
                         <Param id="pullUpRes" value="CY_GPIO_PULLUP_RES_DISABLE"/>
@@ -143,7 +143,7 @@
                         <Param id="sourceClock" value="lfclk"/>
                     </Parameters>
                 </Personality>
-                <Personality template="extclk" version="3.0" instance="kJIxXeEKEZY">
+                <Personality template="extclk" version="4.0" instance="h3QxzUcQIXg">
                     <Block location="srss[0].clock[0].ext[0]" locked="true"/>
                     <Parameters>
                         <Param id="accuracyPpm" value="0"/>
@@ -384,7 +384,7 @@
                 <Personality template="timerclk" version="3.0" instance="zLbtDtLNsOY">
                     <Block location="srss[0].clock[0].timerclk[0]" locked="true"/>
                 </Personality>
-                <Personality template="wco" version="3.0" instance="2bygCX3hCUI">
+                <Personality template="wco" version="4.0" instance="q9gbCNk0wbI">
                     <Block location="srss[0].clock[0].wco[0]" locked="true"/>
                     <Parameters>
                         <Param id="accuracyPpm" value="150"/>

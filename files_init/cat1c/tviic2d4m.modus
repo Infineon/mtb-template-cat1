@@ -11,7 +11,7 @@
                         <Param id="traceModeSerial" value="true"/>
                     </Parameters>
                 </Personality>
-                <Personality template="pin" version="3.0" instance="i5Sx9sRn1ng">
+                <Personality template="pin" version="4.0" instance="1SkONpZCzhA">
                     <Block location="ioss[0].port[2].pin[2]" locked="true">
                         <Aliases>
                             <Alias value="CYBSP_SWO"/>
@@ -31,7 +31,7 @@
                         <Param id="vtrip" value="CY_GPIO_VTRIP_CMOS"/>
                     </Parameters>
                 </Personality>
-                <Personality template="pin" version="3.0" instance="hKtALH7_FEw">
+                <Personality template="pin" version="4.0" instance="iPAPKLmR2VU">
                     <Block location="ioss[0].port[2].pin[4]" locked="true">
                         <Aliases>
                             <Alias value="CYBSP_SWDCK"/>
@@ -51,7 +51,7 @@
                         <Param id="vtrip" value="CY_GPIO_VTRIP_CMOS"/>
                     </Parameters>
                 </Personality>
-                <Personality template="pin" version="3.0" instance="ZFWYrsIPxqw">
+                <Personality template="pin" version="4.0" instance="ISGFSECpqwE">
                     <Block location="ioss[0].port[2].pin[5]" locked="true">
                         <Aliases>
                             <Alias value="CYBSP_SWDIO"/>

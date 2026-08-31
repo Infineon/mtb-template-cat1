@@ -210,21 +210,30 @@ CY_SECTION_RAMFUNC_END
 *
 * Restores the NVIC register After Deepsleep RAM Wakeup i.e. Warmboot:
 *
+* Note: the priority registers (NVIC->IPR and SCB_SHPR3) MUST be
+* restored BEFORE the interrupt-enable registers (NVIC->ISER). Otherwise
+* an interrupt can be enabled while its priority is still 0 (reset
+* value), which violates configMAX_SYSCALL_INTERRUPT_PRIORITY and
+* triggers a Hard Fault via vPortValidateInterruptPriority() on
+* FreeRTOS v10.6+.
+*
 *******************************************************************************/
 CY_SECTION_RAMFUNC_BEGIN
 void System_Restore_NVIC_Reg(void)
 {
-    for (uint8_t idx = 0; idx < CY_NVIC_REG_COUNT; idx++)
-    {
-        NVIC->ISER[idx] = nvicStoreRestore[idx];
-    }
-
-    for (uint8_t idx = 0; idx < CY_NVIC_IPR_REG_COUNT; idx++)
+    /* Restore priorities first */
+    for (uint32_t idx = 0; idx < CY_NVIC_IPR_REG_COUNT; idx++)
     {
         NVIC->IPR[idx] = nvicIPRStoreRestore[idx];
     }
 
     SCB_SHPR3_REG = scbSHPR3StoreRestore;
+
+    /* Then enable the interrupts */
+    for (uint32_t idx = 0; idx < CY_NVIC_REG_COUNT; idx++)
+    {
+        NVIC->ISER[idx] = nvicStoreRestore[idx];
+    }
 }
 CY_SECTION_RAMFUNC_END
 

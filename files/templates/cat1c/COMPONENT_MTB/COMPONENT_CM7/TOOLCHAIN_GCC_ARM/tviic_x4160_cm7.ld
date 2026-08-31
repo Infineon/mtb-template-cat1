@@ -134,7 +134,7 @@ MEMORY
     xip                 (rx)        : ORIGIN = _base_XIP,                   LENGTH = _size_XIP                  /* XIP: 1GB */
     efuse               (rx)        : ORIGIN = _base_EFUSE,                 LENGTH = _size_EFUSE                /* 1MB */
     itcm                (rx)        : ORIGIN = _base_ITCM,                  LENGTH = _size_ITCM                 /* ITCM */
-    dtcm                (rx)        : ORIGIN = _base_DTCM,                  LENGTH = _base_DTCM                 /* DTCM */
+    dtcm                (rx)        : ORIGIN = _base_DTCM,                  LENGTH = _size_DTCM                 /* DTCM */
 }
 
 /* Library configurations */

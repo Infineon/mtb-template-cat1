@@ -94,60 +94,6 @@ uint8_t cy_delayFreqMhz  = (uint8_t)((CY_CLK_SYSTEM_FREQ_HZ_DEFAULT + CY_DELAY_1
 #define CY_PERI_GR4_SL_CTL 0x03
 #define CY_PERI_GR5_SL_CTL 0x01
 
-void SystemInit_Enable_Clocks(void)
-{
-    /** Enable HF2 */
-    (void)Cy_SysClk_ClkHfSetSource(2U, CY_SYSCLK_CLKHF_IN_CLKPATH0);    /* Suppress a compiler warning about unused return value */
-    (void)Cy_SysClk_ClkHfSetDivider(2U, CY_SYSCLK_CLKHF_NO_DIVIDE); /* Suppress a compiler warning about unused return value */
-    (void)Cy_SysClk_ClkHfEnable(2U);         /* Suppress a compiler warning about unused return value */
-
-    /** Enable HF3 */
-    (void)Cy_SysClk_ClkHfSetSource(3U, CY_SYSCLK_CLKHF_IN_CLKPATH0);    /* Suppress a compiler warning about unused return value */
-    (void)Cy_SysClk_ClkHfSetDivider(3U, CY_SYSCLK_CLKHF_NO_DIVIDE); /* Suppress a compiler warning about unused return value */
-    (void)Cy_SysClk_ClkHfEnable(3U);         /* Suppress a compiler warning about unused return value */
-
-    /** Enable HF4 */
-    (void)Cy_SysClk_ClkHfSetSource(4U, CY_SYSCLK_CLKHF_IN_CLKPATH0);    /* Suppress a compiler warning about unused return value */
-    (void)Cy_SysClk_ClkHfSetDivider(4U, CY_SYSCLK_CLKHF_NO_DIVIDE); /* Suppress a compiler warning about unused return value */
-    (void)Cy_SysClk_ClkHfEnable(4U);         /* Suppress a compiler warning about unused return value */
-
-}
-
-
-void SystemInit_Enable_Peri(void)
-{
-    /* Release reset for all groups IP except group 0 */
-    if(Cy_SysClk_PeriGroupGetSlaveCtl(1, CY_SYSCLK_PERI_GROUP_SL_CTL) != CY_PERI_GR1_SL_CTL)
-    {
-        (void)Cy_SysClk_PeriGroupSetSlaveCtl(1, CY_SYSCLK_PERI_GROUP_SL_CTL2, 0x0U); /* typecast void to suppress a compiler warning about unused return value */
-        (void)Cy_SysClk_PeriGroupSetSlaveCtl(1, CY_SYSCLK_PERI_GROUP_SL_CTL, 0xFFFFFFFFU); /* typecast void to suppress a compiler warning about unused return value */
-    }
-
-    if(Cy_SysClk_PeriGroupGetSlaveCtl(2, CY_SYSCLK_PERI_GROUP_SL_CTL) != CY_PERI_GR2_SL_CTL)
-    {
-        (void)Cy_SysClk_PeriGroupSetSlaveCtl(2, CY_SYSCLK_PERI_GROUP_SL_CTL2, 0x0U); /* typecast void to suppress a compiler warning about unused return value */
-        (void)Cy_SysClk_PeriGroupSetSlaveCtl(2, CY_SYSCLK_PERI_GROUP_SL_CTL, 0xFFFFFFFFU); /* typecast void to suppress a compiler warning about unused return value */
-    }
-
-    if(Cy_SysClk_PeriGroupGetSlaveCtl(3, CY_SYSCLK_PERI_GROUP_SL_CTL) != CY_PERI_GR3_SL_CTL)
-    {
-        (void)Cy_SysClk_PeriGroupSetSlaveCtl(3, CY_SYSCLK_PERI_GROUP_SL_CTL2, 0x0U); /* typecast void to suppress a compiler warning about unused return value */
-        (void)Cy_SysClk_PeriGroupSetSlaveCtl(3, CY_SYSCLK_PERI_GROUP_SL_CTL, 0xFFFFFFFFU); /* typecast void to suppress a compiler warning about unused return value */
-    }
-
-    if(Cy_SysClk_PeriGroupGetSlaveCtl(4, CY_SYSCLK_PERI_GROUP_SL_CTL) != CY_PERI_GR4_SL_CTL)
-    {
-        (void)Cy_SysClk_PeriGroupSetSlaveCtl(4, CY_SYSCLK_PERI_GROUP_SL_CTL2, 0x0U); /* typecast void to suppress a compiler warning about unused return value */
-        (void)Cy_SysClk_PeriGroupSetSlaveCtl(4, CY_SYSCLK_PERI_GROUP_SL_CTL, 0xFFFFFFFFU); /* typecast void to suppress a compiler warning about unused return value */
-    }
-
-    if(Cy_SysClk_PeriGroupGetSlaveCtl(5, CY_SYSCLK_PERI_GROUP_SL_CTL) != CY_PERI_GR5_SL_CTL)
-    {
-        (void)Cy_SysClk_PeriGroupSetSlaveCtl(5, CY_SYSCLK_PERI_GROUP_SL_CTL2, 0x0U); /* typecast void to suppress a compiler warning about unused return value */
-        (void)Cy_SysClk_PeriGroupSetSlaveCtl(5, CY_SYSCLK_PERI_GROUP_SL_CTL, 0xFFFFFFFFU); /* typecast void to suppress a compiler warning about unused return value */
-    }
-}
-
 
 #if !defined(CY_DISABLE_WARM_BOOT)
 
@@ -229,34 +175,36 @@ CY_SECTION_RAMFUNC_END
 *
 * Restores the NVIC register After Deepsleep RAM Wakeup i.e. Warmboot:
 *
+* Note: the priority registers (NVIC->IPR and SCB_SHPR3) MUST be
+* restored BEFORE the interrupt-enable registers (NVIC->ISER). Otherwise
+* an interrupt can be enabled while its priority is still 0 (reset
+* value), which violates configMAX_SYSCALL_INTERRUPT_PRIORITY and
+* triggers a Hard Fault via vPortValidateInterruptPriority() on
+* FreeRTOS v10.6+.
+*
 *******************************************************************************/
 CY_SECTION_RAMFUNC_BEGIN
 void System_Restore_NVIC_Reg(void)
 {
-    for (uint32_t idx = 0; idx < CY_NVIC_REG_COUNT; idx++)
-    {
-        NVIC->ISER[idx] = nvicStoreRestore[idx];
-    }
-
+    /* Restore priorities first */
     for (uint32_t idx = 0; idx < CY_NVIC_IPR_REG_COUNT; idx++)
     {
         NVIC->IPR[idx] = nvicIPRStoreRestore[idx];
     }
 
     SCB_SHPR3_REG = scbSHPR3StoreRestore;
+
+    /* Then enable the interrupts */
+    for (uint32_t idx = 0; idx < CY_NVIC_REG_COUNT; idx++)
+    {
+        NVIC->ISER[idx] = nvicStoreRestore[idx];
+    }
 }
 CY_SECTION_RAMFUNC_END
 #endif /* !defined(CY_DISABLE_WARM_BOOT) */
 
 void SystemInit(void)
 {
-#if !defined(CY_NOT_ENABLE_IP_IN_STARTUP)
-#ifdef CY_PDL_TZ_ENABLED
-    SystemInit_Enable_Clocks();
-    SystemInit_Enable_Peri();
-#endif /* CY_PDL_TZ_ENABLED */
-#endif /* CY_NOT_ENABLE_IP_IN_STARTUP */
-
     (void)Cy_SystemInit(); /* typecast void to suppress a compiler warning about unused return value */
 }
 
