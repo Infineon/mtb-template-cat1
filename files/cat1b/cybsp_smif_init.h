@@ -2,7 +2,7 @@
  * \file cybsp_smif_init.h
  *
  * \brief
- * Basic API for setting up boards containing a Cypress MCU.
+ * Basic API for setting up boards containing a Infineon MCU.
  *
  ***************************************************************************************************
  * \copyright
