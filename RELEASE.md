@@ -1,6 +1,8 @@
 # ModusToolbox CAT1 BSP Template Library Release Notes
 
 ### What Changed?
+#### v1.13.1
+* Fixed TRAVEO&trade; T2G Body Entry template dependencies to use the device-specific HAL-next packages for CYT2B7 and CYT2BL devices.
 #### v1.13.0
 * Added support for TRAVEO&trade; T2G CYT2B72DAE.
 * Fixed the TRAVEO&trade; T2G Body Entry (CYT2B6, CYT2B7, CYT2B9, CYT2BL) CM0+ IAR linker scripts to place .cy_sharedmem in application SRAM instead of the SROM-reserved SRAM, consistent with the GCC_ARM and ARM linker scripts. This prevents a HardFault during runtime initialization when the Flash/SROM driver is linked.
